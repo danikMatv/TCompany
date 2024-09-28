@@ -1,7 +1,5 @@
 ﻿using DAL.Repository;
 using DTO.Entity;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace DAL.Repo
@@ -135,7 +133,7 @@ namespace DAL.Repo
                 command.ExecuteNonQuery();
                 _connection.Close();
 
-                return GetById(id); // Return the updated employee
+                return GetById(id);
             }
         }
     }

@@ -1,7 +1,5 @@
 ﻿using DAL.Repository;
 using DTO.Entity;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace DAL.Service
@@ -126,7 +124,7 @@ namespace DAL.Service
                 command.ExecuteNonQuery();
                 _connection.Close();
 
-                return GetById(id); // Return upd goods
+                return GetById(id);
             }
         }
     }

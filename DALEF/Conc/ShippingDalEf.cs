@@ -10,19 +10,11 @@ namespace DALEF.Conc
     {
         private readonly string _connectionString;
         private readonly IMapper _mapper;
-        private ImdbContext context;
-        private IMapper mapper;
 
         public ShippingDalEf(string connectionString, IMapper mapper)
         {
             _connectionString = connectionString;
             _mapper = mapper;
-        }
-
-        public ShippingDalEf(ImdbContext context, IMapper mapper)
-        {
-            this.context = context;
-            this.mapper = mapper;
         }
 
         public Shipping Create(Shipping shipping)

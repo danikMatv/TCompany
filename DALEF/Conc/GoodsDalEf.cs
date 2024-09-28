@@ -3,11 +3,6 @@ using DAL.Repository;
 using DALEF.Ct;
 using DALEF.Models;
 using DTO.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DALEF.Conc
 {

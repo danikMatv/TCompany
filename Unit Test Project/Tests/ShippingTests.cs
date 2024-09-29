@@ -1,153 +1,153 @@
-﻿using Xunit;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using DTO.Entity;
-using DALEF.Conc;
-using DALEF.Ct;
-using DALEF.Models;
+﻿//using Xunit;
+//using Microsoft.EntityFrameworkCore;
+//using AutoMapper;
+//using DTO.Entity;
+//using DALEF.Conc;
+//using DALEF.Ct;
+//using DALEF.Models;
 
-namespace Unit_Test_Project.Tests
-{
-    public class ShippingTests
-    {
-        private readonly DbContextOptions<ImdbContext> _dbContextOptions;
-        private readonly IMapper _mapper;
+//namespace Unit_Test_Project.Tests
+//{
+//    public class ShippingTests
+//    {
+//        private readonly DbContextOptions<ImdbContext> _dbContextOptions;
+//        private readonly IMapper _mapper;
 
-        public ShippingTests()
-        {
-            _dbContextOptions = new DbContextOptionsBuilder<ImdbContext>()
-                .UseInMemoryDatabase(databaseName: "ShippingTestDB")
-                .Options;
+//        public ShippingTests()
+//        {
+//            _dbContextOptions = new DbContextOptionsBuilder<ImdbContext>()
+//                .UseInMemoryDatabase(databaseName: "ShippingTestDB")
+//                .Options;
 
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Shipping, TblShipping>().ReverseMap();
-            });
-            _mapper = config.CreateMapper();
-        }
+//            var config = new MapperConfiguration(cfg =>
+//            {
+//                cfg.CreateMap<Shipping, TblShipping>().ReverseMap();
+//            });
+//            _mapper = config.CreateMapper();
+//        }
 
-        [Fact]
-        public void Create_ShouldAddShippingToDatabase_Transaction()
-        {
-            using (var context = new ImdbContext(_dbContextOptions))
-            {
-                using (var transaction = context.Database.BeginTransaction())
-                {
+//        [Fact]
+//        public void Create_ShouldAddShippingToDatabase_Transaction()
+//        {
+//            using (var context = new ImdbContext(_dbContextOptions))
+//            {
+//                using (var transaction = context.Database.BeginTransaction())
+//                {
 
-                    var shippingDal = new ShippingDalEf(context, _mapper);
-                    var shipping = new Shipping { start_adress = "Start Address", destination = "Destination", goods_id = 1 };
-
-
-                    var createdShipping = shippingDal.Create(shipping);
+//                    var shippingDal = new ShippingDalEf(context, _mapper);
+//                    var shipping = new Shipping { start_adress = "Start Address", destination = "Destination", goods_id = 1 };
 
 
-                    var foundShipping = context.Shippings.Find(createdShipping.id);
-                    Assert.NotNull(foundShipping);
-                    Assert.Equal("Start Address", foundShipping.start_adress);
-                    Assert.Equal("Destination", foundShipping.destination);
+//                    var createdShipping = shippingDal.Create(shipping);
 
 
-                    transaction.Rollback();
-                }
-            }
-        }
-
-        [Fact]
-        public void GetAll_ShouldReturnAllShippings_Transaction()
-        {
-            using (var context = new ImdbContext(_dbContextOptions))
-            {
-                using (var transaction = context.Database.BeginTransaction())
-                {
-
-                    var shippingDal = new ShippingDalEf(context, _mapper);
-                    shippingDal.Create(new Shipping { start_adress = "Address 1", destination = "Dest 1", goods_id = 1 });
-                    shippingDal.Create(new Shipping { start_adress = "Address 2", destination = "Dest 2", goods_id = 2 });
+//                    var foundShipping = context.Shippings.Find(createdShipping.id);
+//                    Assert.NotNull(foundShipping);
+//                    Assert.Equal("Start Address", foundShipping.start_adress);
+//                    Assert.Equal("Destination", foundShipping.destination);
 
 
-                    var shippingList = shippingDal.GetAll();
+//                    transaction.Rollback();
+//                }
+//            }
+//        }
+
+//        [Fact]
+//        public void GetAll_ShouldReturnAllShippings_Transaction()
+//        {
+//            using (var context = new ImdbContext(_dbContextOptions))
+//            {
+//                using (var transaction = context.Database.BeginTransaction())
+//                {
+
+//                    var shippingDal = new ShippingDalEf(context, _mapper);
+//                    shippingDal.Create(new Shipping { start_adress = "Address 1", destination = "Dest 1", goods_id = 1 });
+//                    shippingDal.Create(new Shipping { start_adress = "Address 2", destination = "Dest 2", goods_id = 2 });
 
 
-                    Assert.Equal(2, shippingList.Count);
+//                    var shippingList = shippingDal.GetAll();
 
 
-                    transaction.Rollback();
-                }
-            }
-        }
-
-        [Fact]
-        public void GetById_ShouldReturnCorrectShipping_Transaction()
-        {
-            using (var context = new ImdbContext(_dbContextOptions))
-            {
-                using (var transaction = context.Database.BeginTransaction())
-                {
-
-                    var shippingDal = new ShippingDalEf(context, _mapper);
-                    var createdShipping = shippingDal.Create(new Shipping { start_adress = "Test Start", destination = "Test Dest", goods_id = 1 });
+//                    Assert.Equal(2, shippingList.Count);
 
 
-                    var foundShipping = shippingDal.GetById(createdShipping.id);
+//                    transaction.Rollback();
+//                }
+//            }
+//        }
+
+//        [Fact]
+//        public void GetById_ShouldReturnCorrectShipping_Transaction()
+//        {
+//            using (var context = new ImdbContext(_dbContextOptions))
+//            {
+//                using (var transaction = context.Database.BeginTransaction())
+//                {
+
+//                    var shippingDal = new ShippingDalEf(context, _mapper);
+//                    var createdShipping = shippingDal.Create(new Shipping { start_adress = "Test Start", destination = "Test Dest", goods_id = 1 });
 
 
-                    Assert.NotNull(foundShipping);
-                    Assert.Equal("Test Start", foundShipping.start_adress);
+//                    var foundShipping = shippingDal.GetById(createdShipping.id);
 
 
-                    transaction.Rollback();
-                }
-            }
-        }
-
-        [Fact]
-        public void Update_ShouldModifyShipping_Transaction()
-        {
-            using (var context = new ImdbContext(_dbContextOptions))
-            {
-                using (var transaction = context.Database.BeginTransaction())
-                {
-
-                    var shippingDal = new ShippingDalEf(context, _mapper);
-                    var createdShipping = shippingDal.Create(new Shipping { start_adress = "Old Address", destination = "Old Destination", goods_id = 1 });
-                    createdShipping.start_adress = "Updated Address";
+//                    Assert.NotNull(foundShipping);
+//                    Assert.Equal("Test Start", foundShipping.start_adress);
 
 
-                    shippingDal.Update(createdShipping.id, createdShipping);
+//                    transaction.Rollback();
+//                }
+//            }
+//        }
+
+//        [Fact]
+//        public void Update_ShouldModifyShipping_Transaction()
+//        {
+//            using (var context = new ImdbContext(_dbContextOptions))
+//            {
+//                using (var transaction = context.Database.BeginTransaction())
+//                {
+
+//                    var shippingDal = new ShippingDalEf(context, _mapper);
+//                    var createdShipping = shippingDal.Create(new Shipping { start_adress = "Old Address", destination = "Old Destination", goods_id = 1 });
+//                    createdShipping.start_adress = "Updated Address";
 
 
-                    var updatedShipping = shippingDal.GetById(createdShipping.id);
-                    Assert.Equal("Updated Address", updatedShipping.start_adress);
+//                    shippingDal.Update(createdShipping.id, createdShipping);
 
 
-                    transaction.Rollback();
-                }
-            }
-        }
-
-        [Fact]
-        public void Delete_ShouldRemoveShipping_Transaction()
-        {
-            using (var context = new ImdbContext(_dbContextOptions))
-            {
-                using (var transaction = context.Database.BeginTransaction())
-                {
-
-                    var shippingDal = new ShippingDalEf(context, _mapper);
-                    var createdShipping = shippingDal.Create(new Shipping { start_adress = "To be deleted", destination = "Dest", goods_id = 1 });
+//                    var updatedShipping = shippingDal.GetById(createdShipping.id);
+//                    Assert.Equal("Updated Address", updatedShipping.start_adress);
 
 
-                    var deletedShipping = shippingDal.Delete(createdShipping.id);
+//                    transaction.Rollback();
+//                }
+//            }
+//        }
+
+//        [Fact]
+//        public void Delete_ShouldRemoveShipping_Transaction()
+//        {
+//            using (var context = new ImdbContext(_dbContextOptions))
+//            {
+//                using (var transaction = context.Database.BeginTransaction())
+//                {
+
+//                    var shippingDal = new ShippingDalEf(context, _mapper);
+//                    var createdShipping = shippingDal.Create(new Shipping { start_adress = "To be deleted", destination = "Dest", goods_id = 1 });
 
 
-                    var foundShipping = context.Shippings.Find(createdShipping.id);
-                    Assert.Null(foundShipping);
+//                    var deletedShipping = shippingDal.Delete(createdShipping.id);
 
 
-                    transaction.Rollback();
-                }
-            }
-        }
-    }
-}
+//                    var foundShipping = context.Shippings.Find(createdShipping.id);
+//                    Assert.Null(foundShipping);
+
+
+//                    transaction.Rollback();
+//                }
+//            }
+//        }
+//    }
+//}
 

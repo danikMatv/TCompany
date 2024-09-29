@@ -8,6 +8,7 @@
         public string phone_Number { get; set; } = null!;
         public string position { get; set; } = null!;
         public string email { get; set; } = null!;
+        public string password { get; set; }
         public virtual ICollection<TblGoods> Goods { get; set; } = new List<TblGoods>();
     }
 }

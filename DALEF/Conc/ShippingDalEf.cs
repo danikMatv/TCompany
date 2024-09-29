@@ -53,6 +53,19 @@ namespace DALEF.Conc
             }
         }
 
+        public List<Shipping> GetAllByStatus(string status)
+        {
+            using (var context = new ImdbContext(_connectionString))
+            {
+                var tblShippings = context.Shippings
+                                          .Where(s => s.status == status)
+                                          .ToList();
+
+                return _mapper.Map<List<Shipping>>(tblShippings);
+            }
+        }
+
+
         public Shipping GetById(int id)
         {
             using (var context = new ImdbContext(_connectionString))

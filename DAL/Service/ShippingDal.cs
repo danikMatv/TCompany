@@ -17,13 +17,15 @@ namespace DAL.Service
         {
             using (SqlCommand command = _connection.CreateCommand())
             {
-                command.CommandText = "INSERT INTO shipping (start_adress, destination,goods_id) " +
-                                      "VALUES (@StartAdress, @Destination,@goods_id); " +
+                command.CommandText = "INSERT INTO shipping (start_adress, destination, goods_id, status, destination_date) " +
+                                      "VALUES (@StartAdress, @Destination, @goods_id, @status, @destination_date); " +
                                       "SELECT SCOPE_IDENTITY();";
 
                 command.Parameters.AddWithValue("@StartAdress", shipping.start_adress);
                 command.Parameters.AddWithValue("@Destination", shipping.destination);
-                command.Parameters.AddWithValue("@Destination", shipping.goods_id);
+                command.Parameters.AddWithValue("@goods_id", shipping.goods_id);
+                command.Parameters.AddWithValue("@status", shipping.status);
+                command.Parameters.AddWithValue("@destination_date", shipping.destination_date);
 
                 _connection.Open();
                 shipping.id = Convert.ToInt32(command.ExecuteScalar());
@@ -56,7 +58,7 @@ namespace DAL.Service
         {
             using (SqlCommand command = _connection.CreateCommand())
             {
-                command.CommandText = "SELECT id, start_adress,goods_id, destination FROM shipping";
+                command.CommandText = "SELECT id, start_adress, destination, goods_id, status, destination_date FROM shipping";
 
                 _connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
@@ -69,7 +71,9 @@ namespace DAL.Service
                         id = Convert.ToInt32(reader["id"]),
                         start_adress = reader["start_adress"].ToString(),
                         destination = reader["destination"].ToString(),
-                        goods_id = Convert.ToInt32(reader["goods_id"])
+                        goods_id = Convert.ToInt32(reader["goods_id"]),
+                        status = reader["status"].ToString(),
+                        destination_date = Convert.ToDateTime(reader["destination_date"])
                     });
                 }
 
@@ -78,11 +82,41 @@ namespace DAL.Service
             }
         }
 
+        public List<Shipping> GetAllByStatus(string status)
+        {
+            using (SqlCommand command = _connection.CreateCommand())
+            {
+                command.CommandText = "SELECT id, start_adress, destination, goods_id, status, destination_date FROM shipping WHERE status = @Status";
+                command.Parameters.AddWithValue("@Status", status);
+
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                var shippings = new List<Shipping>();
+                while (reader.Read())
+                {
+                    shippings.Add(new Shipping
+                    {
+                        id = Convert.ToInt32(reader["id"]),
+                        start_adress = reader["start_adress"].ToString(),
+                        destination = reader["destination"].ToString(),
+                        goods_id = Convert.ToInt32(reader["goods_id"]),
+                        status = reader["status"].ToString(),
+                        destination_date = Convert.ToDateTime(reader["destination_date"])
+                    });
+                }
+
+                _connection.Close();
+                return shippings;
+            }
+        }
+
+
         public Shipping GetById(int id)
         {
             using (SqlCommand command = _connection.CreateCommand())
             {
-                command.CommandText = "SELECT id, start_adress, destination,goods_id FROM shipping WHERE id = @Id";
+                command.CommandText = "SELECT id, start_adress, destination, goods_id, status, destination_date FROM shipping WHERE id = @Id";
                 command.Parameters.AddWithValue("@Id", id);
 
                 _connection.Open();
@@ -95,7 +129,9 @@ namespace DAL.Service
                         id = Convert.ToInt32(reader["id"]),
                         start_adress = reader["start_adress"].ToString(),
                         destination = reader["destination"].ToString(),
-                        goods_id = Convert.ToInt32(reader["goods_id"])
+                        goods_id = Convert.ToInt32(reader["goods_id"]),
+                        status = reader["status"].ToString(),
+                        destination_date = Convert.ToDateTime(reader["destination_date"])
                     };
 
                     _connection.Close();
@@ -111,12 +147,15 @@ namespace DAL.Service
         {
             using (SqlCommand command = _connection.CreateCommand())
             {
-                command.CommandText = "UPDATE shipping SET start_adress = @StartAdress,goods_id = @goods_id, destination = @Destination " +
+                command.CommandText = "UPDATE shipping SET start_adress = @StartAdress, destination = @Destination, " +
+                                      "goods_id = @goods_id, status = @status, destination_date = @destination_date " +
                                       "WHERE id = @Id";
 
                 command.Parameters.AddWithValue("@StartAdress", shipping.start_adress);
-                command.Parameters.AddWithValue("@goods_id", shipping.goods_id);
                 command.Parameters.AddWithValue("@Destination", shipping.destination);
+                command.Parameters.AddWithValue("@goods_id", shipping.goods_id);
+                command.Parameters.AddWithValue("@status", shipping.status);
+                command.Parameters.AddWithValue("@destination_date", shipping.destination_date);
                 command.Parameters.AddWithValue("@Id", id);
 
                 _connection.Open();

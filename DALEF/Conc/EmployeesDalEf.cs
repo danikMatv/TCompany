@@ -40,6 +40,8 @@ namespace DALEF.Conc
             }
         }
 
+
+
         public Employees GetById(int id)
         {
             using (var context = new ImdbContext(_connectionString))
@@ -76,5 +78,18 @@ namespace DALEF.Conc
                 return _mapper.Map<Employees>(tblEmployee);
             }
         }
+
+        public Employees login(string first_name, string password)
+        {
+            using (var context = new ImdbContext(_connectionString))
+            {
+                var tblEmployee = context.Employeess
+                    .FirstOrDefault(e => e.first_Name == first_name && e.password == password);
+
+                return _mapper.Map<Employees>(tblEmployee);
+            }
+        }
+
+
     }
 }

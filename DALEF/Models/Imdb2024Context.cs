@@ -49,6 +49,10 @@ namespace DALEF.Models
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblShipping_tblGoods");
 
+                entity.Property(e => e.status).HasDefaultValue("Waiting for approve");
+
+                entity.Property(e => e.destination_date).HasDefaultValue(DateTimeOffset.Now.AddDays(1));
+
             });
             OnModelCreatingPartial(modelBuilder);
         }

@@ -54,6 +54,18 @@ namespace Unit_Test_Project.ForTest
             }
         }
 
+        public List<Shipping> GetAllByStatus(string status)
+        {
+            using (var context = new ImdbContext(_connectionString))
+            {
+                var tblShippings = context.Shippings
+                    .Where(e => e.status == status)
+                    .ToList();
+                return _mapper.Map<List<Shipping>>(tblShippings);
+            }
+        }
+
+
         public Shipping GetById(int id)
         {
             using (var context = new ImdbContext(_connectionString))

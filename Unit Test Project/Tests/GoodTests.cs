@@ -1,103 +1,89 @@
-﻿//using Xunit;
-//using Microsoft.EntityFrameworkCore;
-//using DALEF.Conc;
-//using DALEF.Ct;
+﻿using DALEF.Conc;
+using AutoMapper;
+using DTO.Entity;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DALEF.Mapping;
 
-//namespace Unit_Test_Project.Tests
-//{
-//    public class GoodTests
-//    {
-//        private readonly GoodsDalEf _goodsDal;
-//        private readonly DbContextOptions<ImdbContext> _dbContextOptions;
+namespace Unit_Test_Project.Tests
+{
+    [TestClass]
+    public class GoodsTests
+    {
+        string connStr = "Data Source=HP_DANIK\\SQLEXPRESS01;Initial Catalog=TradingCompany;Integrated Security=True;Encrypt=False;";
+        MapperConfiguration config = new MapperConfiguration(c => c.AddMaps(typeof(MovieProfile).Assembly));
 
-//        public GoodTests()
-//        {
-//            _dbContextOptions = new DbContextOptionsBuilder<ImdbContext>()
-//                .UseInMemoryDatabase(databaseName: "TestDB")
-//                .Options;
+        [TestMethod]
+        public void CreateNewGoods()
+        {
+            int managerId = 1;
+            var goods = new Goods
+            {
+                name = "New Item",
+                price = 100.50,
+                manager_id = managerId
+            };
 
-//            using (var context = new ImdbContext("your_connection_string"))
-//            {
-//                context.Database.EnsureDeleted();
-//                context.Database.EnsureCreated();
-//            }
+            var goodsDal = new GoodsDalEf(connStr, config.CreateMapper());
+            Goods createdGoods = goodsDal.Create(goods);
 
-//            _goodsDal = new GoodsDalEf("your_connection_string", config.CreateMapper());
-//        }
+            Goods g = GetGoodsByGoodsId(createdGoods.id);
+            Assert.IsNotNull(g);
+            Assert.AreEqual("New Item", g.name);
+            Assert.AreEqual(100.50, g.price);
+        }
 
+        [TestMethod]
+        public void UpdateGoodsByGoodsId()
+        {
+            var goodsDal = new GoodsDalEf(connStr, config.CreateMapper());
+            var goods = goodsDal.GetById(3);
+            goods.name = "Updated Item";
+            goods.price = 150.75;
 
-//        [Fact]
-//        public void CreateNewGoods_ShouldAddGoodsToDatabase()
-//        {
-//            var goods = new Goods { name = "Test Good", price = 100.0, manager_id = 1 };
-//            var createdGoods = _goodsDal.Create(goods);
-//            using (var context = new ImdbContext(_dbContextOptions))
-//            {
-//                var foundGoods = context.Goods.Find(createdGoods.id);
-//                Assert.NotNull(foundGoods);
-//                Assert.Equal("Test Good", foundGoods.name);
-//            }
-//        }
+            goodsDal.Update(goods.id, goods);
+            Goods updatedGoods = GetGoodsByGoodsId(goods.id);
 
-//        [Fact]
-//        public void GetAllGoods_ShouldReturnAllGoods()
-//        {
-            
-//            _goodsDal.Create(new Goods { name = "Good 1", price = 50.0, manager_id = 1 });
-//            _goodsDal.Create(new Goods { name = "Good 2", price = 75.0, manager_id = 2 });
+            Assert.IsNotNull(updatedGoods);
+            Assert.AreEqual("Updated Item", updatedGoods.name);
+            Assert.AreEqual(150.75, updatedGoods.price);
+        }
 
-            
-//            var goodsList = _goodsDal.GetAll();
+        [TestMethod]
+        public void DeleteGoodsByGoodsId()
+        {
+            var goodsDal = new GoodsDalEf(connStr, config.CreateMapper());
+            int goodsIdToDelete = 2;
+            var deletedGoods = goodsDal.Delete(goodsIdToDelete);
 
-            
-//            Assert.Equal(2, goodsList.Count);
-//        }
+            Goods g = GetGoodsByGoodsId(goodsIdToDelete);
+            Assert.IsNull(g);
+        }
 
-//        [Fact]
-//        public void GetGoodsByGoodsId_ShouldReturnCorrectGoods()
-//        {
-            
-//            var createdGoods = _goodsDal.Create(new Goods { name = "Test Good", price = 100.0, manager_id = 1 });
+        [TestMethod]
+        public void GetAllGoods()
+        {
+            var goodsDal = new GoodsDalEf(connStr, config.CreateMapper());
+            var goods = goodsDal.GetAll();
 
-            
-//            var foundGoods = _goodsDal.GetById(createdGoods.id);
+            Assert.IsNotNull(goods);
+            Assert.IsTrue(goods.Count > 0);
+        }
 
-            
-//            Assert.NotNull(foundGoods);
-//            Assert.Equal("Test Good", foundGoods.name);
-//        }
+        public Goods GetGoodsByGoodsId(int goodsId)
+        {
+            var goodsDal = new GoodsDalEf(connStr, config.CreateMapper());
+            return goodsDal.GetById(goodsId);
+        }
 
-//        [Fact]
-//        public void UpdateGoodsByGoodsId_ShouldUpdateGoods()
-//        {
-            
-//            var createdGoods = _goodsDal.Create(new Goods { name = "Old Name", price = 50.0, manager_id = 1 });
-//            createdGoods.name = "Updated Name";
+        [TestMethod]
+        public void GetGoodsById()
+        {
+            var goodsDal = new GoodsDalEf(connStr, config.CreateMapper());
+            var goods = goodsDal.GetById(3);
 
-            
-//            _goodsDal.Update(createdGoods.id, createdGoods);
+            Assert.IsNotNull(goods);
+            Assert.AreEqual(3, goods.id);
+        }
+    }
 
-            
-//            var updatedGoods = _goodsDal.GetById(createdGoods.id);
-//            Assert.Equal("Updated Name", updatedGoods.name);
-//        }
-
-//        [Fact]
-//        public void DeleteGoodsByGoodsId_ShouldRemoveGoods()
-//        {
-            
-//            var createdGoods = _goodsDal.Create(new Goods { name = "Test Good", price = 100.0, manager_id = 1 });
-
-            
-//            var deletedGoods = _goodsDal.Delete(createdGoods.id);
-
-            
-//            using (var context = new ImdbContext(_dbContextOptions))
-//            {
-//                var foundGoods = context.Goods.Find(createdGoods.id);
-//                Assert.Null(foundGoods);
-//            }
-//        }
-//    }
-
-//}
+}

@@ -85,8 +85,8 @@ void LogginPanel()
     string password = Console.ReadLine() ?? "";
     Console.ResetColor();
 
-    var employeesDal = new EmployeesDalEf(connStr, config.CreateMapper());
-    var manager = employeesDal.login(name,password);
+    var managerssDal = new ManagersDalEf(connStr, config.CreateMapper());
+    var manager = managerssDal.login(name,password);
     if (manager != null)
     {
         Console.ForegroundColor = ConsoleColor.Green;
@@ -925,8 +925,8 @@ void ManagerPannel()
 }
 void GetAllManagers()
 {
-    var employeesDal = new EmployeesDalEf(connStr, config.CreateMapper());
-    var managers = employeesDal.GetAll();
+    var managerssDal = new ManagersDalEf(connStr, config.CreateMapper());
+    var managers = managerssDal.GetAll();
 
     if (managers.Any())
     {
@@ -968,8 +968,8 @@ void GetManagerByManagerId()
 
     if (int.TryParse(Console.ReadLine(), out int managerId))
     {
-        var employeesDal = new EmployeesDalEf(connStr, config.CreateMapper());
-        var manager = employeesDal.GetById(managerId);
+        var managerssDal = new ManagersDalEf(connStr, config.CreateMapper());
+        var manager = managerssDal.GetById(managerId);
 
         if (manager != null)
         {
@@ -1029,8 +1029,8 @@ void UpdateManagerByManagerId()
         Console.Write("Email: ");
         string email = Console.ReadLine();
 
-        var employeesDal = new EmployeesDalEf(connStr, config.CreateMapper());
-        var manager = employeesDal.GetById(managerId);
+        var managerssDal = new ManagersDalEf(connStr, config.CreateMapper());
+        var manager = managerssDal.GetById(managerId);
 
         if (manager != null)
         {
@@ -1040,7 +1040,7 @@ void UpdateManagerByManagerId()
             if (!string.IsNullOrEmpty(position)) manager.position = position;
             if (!string.IsNullOrEmpty(email)) manager.email = email;
 
-            employeesDal.Update(managerId, manager);
+            managerssDal.Update(managerId, manager);
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nManager updated successfully!");
@@ -1071,8 +1071,8 @@ void DeleteManagerByManagerId()
 
     if (int.TryParse(Console.ReadLine(), out int managerId))
     {
-        var employeesDal = new EmployeesDalEf(connStr, config.CreateMapper());
-        var deletedManager = employeesDal.Delete(managerId);
+        var managerssDal = new ManagersDalEf(connStr, config.CreateMapper());
+        var deletedManager = managerssDal.Delete(managerId);
 
         if (deletedManager != null)
         {
@@ -1122,7 +1122,7 @@ void CreateNewManager()
     Console.Write("Email: ");
     string email = Console.ReadLine();
 
-    var manager = new Employees
+    var manager = new Managers
     {
         first_Name = firstName,
         last_Name = lastName,
@@ -1132,18 +1132,18 @@ void CreateNewManager()
         email = email
     };
 
-    var employeesDal = new EmployeesDalEf(connStr, config.CreateMapper());
-    Employees employees = employeesDal.Create(manager);
+    var managerssDal = new ManagersDalEf(connStr, config.CreateMapper());
+    Managers managerss = managerssDal.Create(manager);
 
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("\nNew manager created successfully!");
-    Console.WriteLine($"ID: {employees.id}");
-    Console.WriteLine($"First Name: {employees.first_Name}");
-    Console.WriteLine($"Last Name: {employees.last_Name}");
-    Console.WriteLine($"Position: {employees.position}");
-    Console.WriteLine($"Email: {employees.email}");
-    Console.WriteLine($"Phone Number: {employees.phone_Number}");
-    Console.WriteLine($"Password: {employees.password}");
+    Console.WriteLine($"ID: {managerss.id}");
+    Console.WriteLine($"First Name: {managerss.first_Name}");
+    Console.WriteLine($"Last Name: {managerss.last_Name}");
+    Console.WriteLine($"Position: {managerss.position}");
+    Console.WriteLine($"Email: {managerss.email}");
+    Console.WriteLine($"Phone Number: {managerss.phone_Number}");
+    Console.WriteLine($"Password: {managerss.password}");
     Console.ResetColor();
 
     Console.WriteLine("\nPress any key to return to the Manager Panel...");

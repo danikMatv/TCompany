@@ -1,6 +1,6 @@
 ﻿namespace DTO.Entity
 {
-    public class Employees
+    public class Managers
     {
         public int id { get; set; }
         public string first_Name { get; set; }

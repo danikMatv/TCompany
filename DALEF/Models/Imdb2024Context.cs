@@ -9,14 +9,14 @@ namespace DALEF.Models
         public R2024Context(DbContextOptions<R2024Context> options)
             : base(options)
         { }
-        public virtual DbSet<TblEmployees> Employeess { get; set; }
+        public virtual DbSet<TblManagers> Managerss { get; set; }
         public virtual DbSet<TblGoods> Goods { get; set; }
         public virtual DbSet<TblShipping> Shippings { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseSqlServer("TradingCompany");
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TblEmployees>(entity =>
+            modelBuilder.Entity<TblManagers>(entity =>
             {
                 entity.HasKey(e => e.id);
 
@@ -31,11 +31,11 @@ namespace DALEF.Models
 
                 entity.ToTable("goods");
 
-                entity.HasOne(d => d.Employees)
+                entity.HasOne(d => d.Managers)
                 .WithMany(p => p.Goods)
                 .HasForeignKey(d => d.manager_id)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_tblGoods_tblEmployees");
+                .HasConstraintName("FK_tblGoods_tblManagers");
             });
             modelBuilder.Entity<TblShipping>(entity =>
             {

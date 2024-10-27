@@ -11,8 +11,8 @@ namespace DALEF.Mapping
             CreateMap<TblGoods, Goods>();
             CreateMap<Goods, TblGoods>();
 
-            CreateMap<TblEmployees, Employees>();
-            CreateMap<Employees, TblEmployees>();
+            CreateMap<TblManagers, Managers>();
+            CreateMap<Managers, TblManagers>();
 
             CreateMap<TblShipping, Shipping>();
             CreateMap<Shipping, TblShipping>();

@@ -6,87 +6,87 @@ using DALEF.Ct;
 
 namespace DALEF.Conc
 {
-    public class EmployeesDalEf : IEmployees
+    public class ManagersDalEf : IManagers
     {
         private readonly string _connectionString;
         private readonly IMapper _mapper;
 
-        public EmployeesDalEf(string connectionString, IMapper mapper)
+        public ManagersDalEf(string connectionString, IMapper mapper)
         {
             _connectionString = connectionString;
             _mapper = mapper;
         }
 
-        public Employees Create(Employees employee)
+        public Managers Create(Managers managers)
         {
             using (var context = new ImdbContext(_connectionString))
             {
-                Console.WriteLine(employee.last_Name.ToString());
-                var tblEmployee = _mapper.Map<TblEmployees>(employee);
-                context.Employeess.Add(tblEmployee);
+                Console.WriteLine(managers.last_Name.ToString());
+                var tblManager = _mapper.Map<TblManagers>(managers);
+                context.Managerss.Add(tblManager);
                 context.SaveChanges();
 
-                employee.id = tblEmployee.id;
-                return employee;
+                managers.id = tblManager.id;
+                return managers;
             }
         }
 
-        public List<Employees> GetAll()
+        public List<Managers> GetAll()
         {
             using (var context = new ImdbContext(_connectionString))
             {
-                var tblEmployees = context.Employeess.ToList();
-                return _mapper.Map<List<Employees>>(tblEmployees);
+                var tblManagers = context.Managerss.ToList();
+                return _mapper.Map<List<Managers>>(tblManagers);
             }
         }
 
 
 
-        public Employees GetById(int id)
+        public Managers GetById(int id)
         {
             using (var context = new ImdbContext(_connectionString))
             {
-                var tblEmployee = context.Employeess.FirstOrDefault(e => e.id == id);
-                return _mapper.Map<Employees>(tblEmployee);
+                var tblManager = context.Managerss.FirstOrDefault(e => e.id == id);
+                return _mapper.Map<Managers>(tblManager);
             }
         }
 
-        public Employees Update(int id, Employees employee)
+        public Managers Update(int id, Managers managers)
         {
             using (var context = new ImdbContext(_connectionString))
             {
-                var tblEmployee = context.Employeess.FirstOrDefault(e => e.id == id);
-                if (tblEmployee != null)
+                var tblManager = context.Managerss.FirstOrDefault(e => e.id == id);
+                if (tblManager != null)
                 {
-                    _mapper.Map(employee, tblEmployee);
+                    _mapper.Map(managers, tblManager);
                     context.SaveChanges();
                 }
-                return employee;
+                return managers;
             }
         }
 
-        public Employees Delete(int id)
+        public Managers Delete(int id)
         {
             using (var context = new ImdbContext(_connectionString))
             {
-                var tblEmployee = context.Employeess.FirstOrDefault(e => e.id == id);
-                if (tblEmployee != null)
+                var tblManager = context.Managerss.FirstOrDefault(e => e.id == id);
+                if (tblManager != null)
                 {
-                    context.Employeess.Remove(tblEmployee);
+                    context.Managerss.Remove(tblManager);
                     context.SaveChanges();
                 }
-                return _mapper.Map<Employees>(tblEmployee);
+                return _mapper.Map<Managers>(tblManager);
             }
         }
 
-        public Employees login(string first_name, string password)
+        public Managers login(string first_name, string password)
         {
             using (var context = new ImdbContext(_connectionString))
             {
-                var tblEmployee = context.Employeess
+                var tblManager = context.Managerss
                     .FirstOrDefault(e => e.first_Name == first_name && e.password == password);
 
-                return _mapper.Map<Employees>(tblEmployee);
+                return _mapper.Map<Managers>(tblManager);
             }
         }
 

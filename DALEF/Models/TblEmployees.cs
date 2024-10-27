@@ -1,6 +1,6 @@
 ﻿namespace DALEF.Models
 {
-    public partial class TblEmployees
+    public partial class TblManagers
     {
         public int id { get; set; }
         public string? first_Name { get; set; } 

@@ -1,0 +1,26 @@
+﻿<Window x:Class="WpfApp2.ManagerRegisterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Manager Registration" Height="300" Width="400" 
+        WindowStartupLocation="CenterScreen"
+        Background="#1E1E2F"
+        ResizeMode="NoResize">
+
+    <Window.Effect>
+        <DropShadowEffect BlurRadius="20" ShadowDepth="0" Color="#2A2A3B"/>
+    </Window.Effect>
+
+    <Grid>
+        <StackPanel Margin="20">
+            <TextBlock Text="Register as Manager" Foreground="White" FontSize="18" Margin="0,0,0,10"/>
+            <TextBlock Text="Email" Foreground="White"/>
+            <TextBox Name="EmailTextBox" Width="200" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Password" Foreground="White"/>
+            <PasswordBox Name="PasswordBox" Width="200" Margin="0,0,0,10"/>
+
+            <Button Content="Register" Width="100" Margin="0,10,0,0" Click="RegisterButton_Click" 
+                    Style="{DynamicResource RoundedButtonStyle}"/>
+        </StackPanel>
+    </Grid>
+</Window>

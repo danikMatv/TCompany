@@ -61,17 +61,10 @@ namespace WpfApp2.ViewModel
                 {
                     Message = $"Welcome {users.name}!";
 
-                    if (users.role == "Admin" || users.role == "User")
-                    {
-                        var mainWindow = new MainWindow();
-                        mainWindow.Show();
+                    var mainWindow = new MainWindow(users.role,users.id);
+                    mainWindow.Show();
 
-                        Application.Current.Windows[0].Close();
-                    }
-                    else
-                    {
-                        Message = "Access denied.";
-                    }
+                    Application.Current.Windows[0].Close();
                 }
                 else
                 {
@@ -83,6 +76,7 @@ namespace WpfApp2.ViewModel
                 Message = "An error occurred during login.";
             }
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName) =>

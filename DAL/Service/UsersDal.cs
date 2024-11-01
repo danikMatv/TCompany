@@ -24,7 +24,7 @@ namespace DAL.Service
 
                 command.Parameters.AddWithValue("@name", users.name);
                 command.Parameters.AddWithValue("@login", users.login);
-                command.Parameters.AddWithValue("@hashed_password", users.password);
+                command.Parameters.AddWithValue("@hashed_password", users.hashed_password);
                 command.Parameters.AddWithValue("@role", users.role);
 
                 _connection.Open();
@@ -68,7 +68,7 @@ namespace DAL.Service
                         id = Convert.ToInt32(reader["id"]),
                         name = reader["name"].ToString(),
                         login = reader["login"].ToString(),
-                        password = reader["hashed_password"].ToString(),
+                        hashed_password = reader["hashed_password"].ToString(),
                         role = reader["role"].ToString()
                     };
                     usersList.Add(user);
@@ -97,7 +97,7 @@ namespace DAL.Service
                         id = Convert.ToInt32(reader["id"]),
                         name = reader["name"].ToString(),
                         login = reader["login"].ToString(),
-                        password = reader["hashed_password"].ToString(),
+                        hashed_password = reader["hashed_password"].ToString(),
                         role = reader["role"].ToString()
                     };
 
@@ -119,7 +119,7 @@ namespace DAL.Service
 
                 command.Parameters.AddWithValue("@name", user.name);
                 command.Parameters.AddWithValue("@login", user.login);
-                command.Parameters.AddWithValue("@hashed_password", user.password);
+                command.Parameters.AddWithValue("@hashed_password", user.hashed_password);
                 command.Parameters.AddWithValue("@role", user.role);
                 command.Parameters.AddWithValue("@id", id);
 

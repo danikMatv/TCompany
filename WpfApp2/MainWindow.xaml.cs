@@ -1,24 +1,27 @@
-﻿using System.Text;
+﻿using DALEF.Conc;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using WpfApp2.ViewModel;
 
 namespace WpfApp2
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly UsersDalEf _usersDalEf;
+        private readonly ManagersDalEf _managersDalEf;
+        private readonly GoodsDalEf _goodsDalEf;
+        private readonly ShippingDalEf _shippingDalEf;
+
+        public MainWindow(string userRole, int userId)
         {
             InitializeComponent();
+
+            _usersDalEf = (App.ServiceProvider.GetService<UsersDalEf>());
+            _managersDalEf = (App.ServiceProvider.GetService<ManagersDalEf>());
+            _goodsDalEf = (App.ServiceProvider.GetService<GoodsDalEf>());
+            _shippingDalEf = (App.ServiceProvider.GetService<ShippingDalEf>());
+
+            DataContext = new MainViewModel(_shippingDalEf, _goodsDalEf, userId, userRole, _usersDalEf, _managersDalEf);
         }
     }
 }

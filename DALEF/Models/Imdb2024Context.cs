@@ -21,7 +21,7 @@ namespace DALEF.Models
             {
                 entity.HasKey(e => e.id);
 
-                entity.ToTable("managers");
+                entity.ToTable("users");
 
                 entity.Property(e => e.name).HasMaxLength(50);
 

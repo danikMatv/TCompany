@@ -7,11 +7,13 @@ namespace WpfApp2
     public partial class StartWindow : Window
     {
         private readonly UsersDalEf _usersDalEf;
+        private readonly ManagersDalEf _managersDalEf;
 
-        public StartWindow(UsersDalEf usersDalEf)
+        public StartWindow(UsersDalEf usersDalEf, ManagersDalEf managersDalEf)
         {
             InitializeComponent();
             _usersDalEf = usersDalEf;
+            _managersDalEf = managersDalEf;
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -24,7 +26,7 @@ namespace WpfApp2
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            var registerWindow = new RegisterWindow(_usersDalEf);
+            var registerWindow = new RegisterWindow(_usersDalEf, _managersDalEf);
             registerWindow.Show();
         }
     }

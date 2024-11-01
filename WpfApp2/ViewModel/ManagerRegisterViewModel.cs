@@ -1,5 +1,6 @@
 ﻿using DALEF.Conc;
 using DTO.Entity;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -7,32 +8,35 @@ using WpfApp2.Commands;
 
 namespace WpfApp2.ViewModel
 {
-    public class UserRegisterViewModel : INotifyPropertyChanged
+    public class ManagerRegisterViewModel : INotifyPropertyChanged
     {
+        private readonly ManagersDalEf _managersDalEf;
         private readonly UsersDalEf _usersDalEf;
-        private string _name;
-        private string _login;
+        private string _firstName;
+        private string _lastName;
         private string _password;
         private string _confirmPassword;
+        private string _phoneNumber;
+        private string _email;
         private string _message;
 
-        public string Name
+        public string FirstName
         {
-            get => _name;
+            get => _firstName;
             set
             {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
+                _firstName = value;
+                OnPropertyChanged(nameof(FirstName));
             }
         }
 
-        public string Login
+        public string LastName
         {
-            get => _login;
+            get => _lastName;
             set
             {
-                _login = value;
-                OnPropertyChanged(nameof(Login));
+                _lastName = value;
+                OnPropertyChanged(nameof(LastName));
             }
         }
 
@@ -56,6 +60,26 @@ namespace WpfApp2.ViewModel
             }
         }
 
+        public string PhoneNumber
+        {
+            get => _phoneNumber;
+            set
+            {
+                _phoneNumber = value;
+                OnPropertyChanged(nameof(PhoneNumber));
+            }
+        }
+
+        public string Email
+        {
+            get => _email;
+            set
+            {
+                _email = value;
+                OnPropertyChanged(nameof(Email));
+            }
+        }
+
         public string Message
         {
             get => _message;
@@ -68,10 +92,11 @@ namespace WpfApp2.ViewModel
 
         public ICommand RegisterCommand { get; }
 
-        public UserRegisterViewModel(UsersDalEf usersDalEf)
+        public ManagerRegisterViewModel(ManagersDalEf managersDalEf, UsersDalEf usersDalEf)
         {
-            _usersDalEf = usersDalEf;
+            _managersDalEf = managersDalEf;
             RegisterCommand = new RelayCommand(Register);
+            _usersDalEf = usersDalEf;
         }
 
         private void Register()
@@ -83,20 +108,31 @@ namespace WpfApp2.ViewModel
             }
 
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(Password);
+            var manager = new Managers
+            {
+                first_Name = FirstName,
+                last_Name = LastName,
+                password = hashedPassword,
+                phone_Number = PhoneNumber,
+                email = Email
+            };
             var user = new Users
             {
-                name = Name,
-                login = Login,
+                name = FirstName,
+                login = Email,
                 hashed_password = hashedPassword,
-                role = "User"
+                role = "Admin"
             };
 
             try
             {
-                var result = _usersDalEf.Create(user);
-                if (result != null)
+                var result = _managersDalEf.Create(manager);
+                var resultNew = _usersDalEf.Create(user);
+                if (result != null && resultNew != null)
                 {
+
                     Message = "Registration successful!";
+
                 }
                 else
                 {

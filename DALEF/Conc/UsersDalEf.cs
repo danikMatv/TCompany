@@ -27,11 +27,11 @@ namespace DALEF.Conc
             using (var context = new ImdbContext(_connectionString))
             {
                 Console.WriteLine(Users.name.ToString());
-                var tblManager = _mapper.Map<TblUsers>(Users);
-                context.Users.Add(tblManager);
+                var tblUsers = _mapper.Map<TblUsers>(Users);
+                context.Users.Add(tblUsers);
                 context.SaveChanges();
 
-                Users.id = tblManager.id;
+                Users.id = tblUsers.id;
                 return Users;
             }
         }
@@ -94,7 +94,7 @@ namespace DALEF.Conc
                 {
                     return null;
                 }
-                else if (BCrypt.Net.BCrypt.Verify(password, manager.password))
+                else if (BCrypt.Net.BCrypt.Verify(password, manager.hashed_password))
                 {
                     return _mapper.Map<Users>(manager);
                 }

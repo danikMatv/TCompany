@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>
@@ -26,6 +27,7 @@
     <ProjectReference Include="..\DALEF\DALEF.csproj" />
     <ProjectReference Include="..\DAL\DAL.csproj" />
     <ProjectReference Include="..\DTO\DTO.csproj" />
+    <ProjectReference Include="..\WpfApp2\WpfApp2.csproj" />
   </ItemGroup>
 
 </Project>

@@ -16,6 +16,9 @@ namespace DALEF.Mapping
 
             CreateMap<TblShipping, Shipping>();
             CreateMap<Shipping, TblShipping>();
+
+            CreateMap<TblUsers, Users>();
+            CreateMap<Users, TblUsers>();
         }
     }
 }

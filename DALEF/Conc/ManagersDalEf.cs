@@ -79,14 +79,24 @@ namespace DALEF.Conc
             }
         }
 
-        public Managers login(string first_name, string password)
+        public Managers login(string email, string password)
         {
             using (var context = new ImdbContext(_connectionString))
             {
-                var tblManager = context.Managerss
-                    .FirstOrDefault(e => e.first_Name == first_name && e.password == password);
+                var manager = context.Managerss.FirstOrDefault(m => m.email == email);
 
-                return _mapper.Map<Managers>(tblManager);
+                if (manager == null)
+                {
+                    return null;
+                }
+                else if (BCrypt.Net.BCrypt.Verify(password, manager.password))
+                {
+                    return _mapper.Map<Managers>(manager);
+                }
+                else
+                {
+                    return null; 
+                }
             }
         }
 

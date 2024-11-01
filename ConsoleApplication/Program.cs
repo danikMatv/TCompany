@@ -79,20 +79,20 @@ while (option != 'q')
 void LogginPanel()
 {
     Console.ForegroundColor = ConsoleColor.Yellow;
-    Console.WriteLine("Please enter your name:\n");
+    Console.WriteLine("Please enter your email:\n");
     string name = Console.ReadLine() ?? "";
     Console.WriteLine("Password:\n");
     string password = Console.ReadLine() ?? "";
     Console.ResetColor();
 
     var managerssDal = new ManagersDalEf(connStr, config.CreateMapper());
-    var manager = managerssDal.login(name,password);
+    var manager = managerssDal.login(name, password);
     if (manager != null)
     {
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("\nManager found!");
         Console.WriteLine("═══════════════════════════════════════════");
-       Console.WriteLine($"|             WELCOME {manager.first_Name}              |");
+        Console.WriteLine($"|             WELCOME {manager.first_Name}              |");
         Console.WriteLine("═══════════════════════════════════════════");
         Console.ResetColor();
         WorkPannel(manager.id);
@@ -152,7 +152,7 @@ void WorkPannel(int managerId)
                 GetGoodsByGoodsId();
                 break;
             case '4':
-                UpdateGoodsByGoodsId(); 
+                UpdateGoodsByGoodsId();
                 break;
             case '5':
                 DeleteGoodsByGoodsId();
@@ -336,31 +336,12 @@ void GoodsPanel()
 }
 void DeleteGoodsByGoodsId()
 {
-    Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine("═══════════════════════════════════════════");
-    Console.WriteLine("           DELETING GOODS BY ID            ");
-    Console.WriteLine("═══════════════════════════════════════════");
-    Console.ResetColor();
-
     Console.Write("Please enter the Goods ID to delete: ");
     if (int.TryParse(Console.ReadLine(), out int goodsId))
     {
         var goodsDal = new GoodsDalEf(connStr, config.CreateMapper());
         var deletedGoods = goodsDal.Delete(goodsId);
-
-        if (deletedGoods != null)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Goods '{deletedGoods.name}' with ID {goodsId} was deleted successfully.");
-            Console.ResetColor();
-        }
-        else
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Goods not found or deletion failed.");
-            Console.ResetColor();
-        }
-    }
+}
     else
     {
         Console.ForegroundColor = ConsoleColor.Red;
@@ -370,12 +351,6 @@ void DeleteGoodsByGoodsId()
 }
 void UpdateGoodsByGoodsId()
 {
-    Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine("═══════════════════════════════════════════");
-    Console.WriteLine("           UPDATING GOODS BY ID            ");
-    Console.WriteLine("═══════════════════════════════════════════");
-    Console.ResetColor();
-
     Console.Write("Please enter the Goods ID to update: ");
     if (int.TryParse(Console.ReadLine(), out int goodsId))
     {
@@ -419,35 +394,12 @@ void UpdateGoodsByGoodsId()
     }
 }
 void GetGoodsByGoodsId()
-{
-    Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine("═══════════════════════════════════════════");
-    Console.WriteLine("             SEARCH GOODS BY ID            ");
-    Console.WriteLine("═══════════════════════════════════════════");
-    Console.ResetColor();
-
-    Console.Write("Please enter the Goods ID: ");
+{ Console.Write("Please enter the Goods ID: ");
     if (int.TryParse(Console.ReadLine(), out int goodsId))
     {
         var goodsDal = new GoodsDalEf(connStr, config.CreateMapper());
         var goods = goodsDal.GetById(goodsId);
-
-        if (goods != null)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"ID: {goods.id}\n" +
-                $"Name: {goods.name}\n" +
-                $"Price: {goods.price:C}\n" +
-                $"Manager ID: {goods.manager_id}");
-            Console.ResetColor();
-        }
-        else
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Goods not found.");
-            Console.ResetColor();
-        }
-    }
+   }
     else
     {
         Console.ForegroundColor = ConsoleColor.Red;
@@ -457,11 +409,6 @@ void GetGoodsByGoodsId()
 }
 void CreateNewGoods(int managerId)
 {
-    Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine("═══════════════════════════════════════════");
-    Console.WriteLine("             CREATING NEW GOODS            ");
-    Console.WriteLine("═══════════════════════════════════════════");
-    Console.ResetColor();
 
     Console.Write("Please enter Goods name: ");
     string name = Console.ReadLine();
@@ -478,10 +425,6 @@ void CreateNewGoods(int managerId)
 
         var goodsDal = new GoodsDalEf(connStr, config.CreateMapper());
         Goods createdGoods = goodsDal.Create(goods);
-
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"New Goods created successfully with ID: {createdGoods.id}");
-        Console.ResetColor();
     }
     else
     {
@@ -492,19 +435,9 @@ void CreateNewGoods(int managerId)
 }
 void GetAllGoods()
 {
-    Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine("═══════════════════════════════════════════");
-    Console.WriteLine("                ALL GOODS                 ");
-    Console.WriteLine("═══════════════════════════════════════════");
-    Console.ResetColor();
-
     var goodsDal = new GoodsDalEf(connStr, config.CreateMapper());
     var goods = goodsDal.GetAll();
-
-    Console.ForegroundColor = ConsoleColor.Yellow;
-    Console.WriteLine($"{"ID",-5} {"Name",-20} {"Price",-10} {"Manager ID"}");
-    Console.ResetColor();
-
+    
     foreach (var item in goods)
     {
         if (item.id % 2 == 0)
@@ -515,10 +448,6 @@ void GetAllGoods()
         Console.WriteLine($"{item.id,-5} {item.name,-20} {item.price,-10:C} {item.manager_id}");
         Console.ResetColor();
     }
-
-    Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine("═══════════════════════════════════════════");
-    Console.ResetColor();
 }
 //Shipping
 void ShippingPanel()
@@ -937,7 +866,7 @@ void GetAllManagers()
         Console.ResetColor();
 
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"{"ID",-5} {"First Name",-15} {"Last Name",-15} {"Position",-15} {"Email",-25} {"Phone Number",-15}");
+        Console.WriteLine($"{"ID",-5} {"First Name",-15} {"Last Name",-15} {"Email",-25} {"Phone Number",-15}");
         Console.ResetColor();
 
         foreach (var manager in managers)
@@ -947,7 +876,7 @@ void GetAllManagers()
             else
                 Console.ForegroundColor = ConsoleColor.White;
 
-            Console.WriteLine($"{manager.id,-5} {manager.first_Name,-15} {manager.last_Name,-15} {manager.position,-15} {manager.email,-25} {manager.phone_Number,-15}");
+            Console.WriteLine($"{manager.id,-5} {manager.first_Name,-15} {manager.last_Name,-15} {manager.email,-25} {manager.phone_Number,-15}");
             Console.ResetColor();
         }
     }
@@ -981,7 +910,6 @@ void GetManagerByManagerId()
             Console.WriteLine($"ID: {manager.id}");
             Console.WriteLine($"First Name: {manager.first_Name}");
             Console.WriteLine($"Last Name: {manager.last_Name}");
-            Console.WriteLine($"Position: {manager.position}");
             Console.WriteLine($"Email: {manager.email}");
             Console.WriteLine($"Phone Number: {manager.phone_Number}");
         }
@@ -1023,8 +951,6 @@ void UpdateManagerByManagerId()
         Console.Write("Phone Number: ");
         string pNumber = Console.ReadLine();
 
-        Console.Write("Position: ");
-        string position = Console.ReadLine();
 
         Console.Write("Email: ");
         string email = Console.ReadLine();
@@ -1037,7 +963,6 @@ void UpdateManagerByManagerId()
             if (!string.IsNullOrEmpty(firstName)) manager.first_Name = firstName;
             if (!string.IsNullOrEmpty(lastName)) manager.last_Name = lastName;
             if (!string.IsNullOrEmpty(pNumber)) manager.phone_Number = pNumber;
-            if (!string.IsNullOrEmpty(position)) manager.position = position;
             if (!string.IsNullOrEmpty(email)) manager.email = email;
 
             managerssDal.Update(managerId, manager);
@@ -1112,12 +1037,10 @@ void CreateNewManager()
     Console.Write("Password : ");
     string pass = Console.ReadLine();
 
+    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(pass);
 
     Console.Write("Phone Number: ");
     string pNumber = Console.ReadLine();
-
-    Console.Write("Position: ");
-    string position = Console.ReadLine();
 
     Console.Write("Email: ");
     string email = Console.ReadLine();
@@ -1126,9 +1049,8 @@ void CreateNewManager()
     {
         first_Name = firstName,
         last_Name = lastName,
-        password = pass,
+        password = hashedPassword,
         phone_Number = pNumber,
-        position = position,
         email = email
     };
 
@@ -1137,13 +1059,12 @@ void CreateNewManager()
 
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("\nNew manager created successfully!");
-    Console.WriteLine($"ID: {managerss.id}");
-    Console.WriteLine($"First Name: {managerss.first_Name}");
-    Console.WriteLine($"Last Name: {managerss.last_Name}");
-    Console.WriteLine($"Position: {managerss.position}");
-    Console.WriteLine($"Email: {managerss.email}");
-    Console.WriteLine($"Phone Number: {managerss.phone_Number}");
-    Console.WriteLine($"Password: {managerss.password}");
+    //Console.WriteLine($"ID: {managerss.id}");
+    //Console.WriteLine($"First Name: {managerss.first_Name}");
+    //Console.WriteLine($"Last Name: {managerss.last_Name}");
+    //Console.WriteLine($"Email: {managerss.email}");
+    //Console.WriteLine($"Phone Number: {managerss.phone_Number}");
+    //Console.WriteLine($"Password: {managerss.password}");
     Console.ResetColor();
 
     Console.WriteLine("\nPress any key to return to the Manager Panel...");

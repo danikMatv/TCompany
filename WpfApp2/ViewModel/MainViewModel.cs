@@ -124,27 +124,31 @@ namespace WpfApp2
 
         private void GetAllShippings()
         {
-            // Логіка для отримання всіх доставок
+            GetAllShippingsWindow getAllShippingsWindow = new GetAllShippingsWindow(_shippingDalEf);
+            getAllShippingsWindow.ShowDialog();
         }
 
         private void UpdateShippingById()
         {
-            // Логіка для оновлення доставки за ID
+            UpdateShippingByIdWindow updateShippingByIdWindow = new UpdateShippingByIdWindow(_shippingDalEf);
+            updateShippingByIdWindow.ShowDialog();
         }
 
         private void DeleteShippingById()
         {
-            // Логіка для видалення доставки за ID
+            DeleteShippingByIdWindow deleteShippingByIdWindow = new DeleteShippingByIdWindow(_shippingDalEf);
+            deleteShippingByIdWindow.ShowDialog();
         }
 
         private void ApproveOrders()
         {
-            // Логіка для підтвердження замовлень
+            ApproveOrdersWindow approveOrdersWindow = new ApproveOrdersWindow(_shippingDalEf,_goodsDalEf, _userId);
+            approveOrdersWindow.ShowDialog();
         }
 
         private void QuitApplication()
         {
-            // Логіка для виходу з програми
+        //   MainViewModel.Close();
         }
     }
 }

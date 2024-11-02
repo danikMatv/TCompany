@@ -53,6 +53,18 @@ namespace DALEF.Conc
             }
         }
 
+        public List<Goods> GetAllRelatedGoods(int managerId)
+        {
+            using (var context = new ImdbContext(_connectionString))
+            {
+                var tblGoods = context.Goods
+                    .Where(g => g.manager_id == managerId)
+                    .ToList();
+
+                return _mapper.Map<List<Goods>>(tblGoods);
+            }
+        }
+
         public Goods GetById(int id)
         {
             using (var context = new ImdbContext(_connectionString))

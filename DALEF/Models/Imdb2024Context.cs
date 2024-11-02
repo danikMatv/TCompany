@@ -12,15 +12,25 @@ namespace DALEF.Models
         public virtual DbSet<TblManagers> Managerss { get; set; }
         public virtual DbSet<TblGoods> Goods { get; set; }
         public virtual DbSet<TblShipping> Shippings { get; set; }
+        public virtual DbSet<TblUsers> Users{ get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseSqlServer("TradingCompany");
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<TblUsers>(entity =>
+            {
+                entity.HasKey(e => e.id);
+
+                entity.ToTable("users");
+
+                entity.Property(e => e.name).HasMaxLength(50);
+
+            });
             modelBuilder.Entity<TblManagers>(entity =>
             {
                 entity.HasKey(e => e.id);
 
-                entity.ToTable("employees");
+                entity.ToTable("managers");
 
                 entity.Property(e => e.last_Name).HasMaxLength(50);
 

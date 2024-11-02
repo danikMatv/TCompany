@@ -1,0 +1,15 @@
+﻿<Window x:Class="WpfApp2.DeleteItemByIntemId"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Delete Item By Item ID" Height="300" Width="400">
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="Enter Item ID to Delete:" Margin="0,0,0,5"/>
+            <TextBox x:Name="ItemIdTextBox" Width="200" Margin="0,0,0,10"/>
+
+            <Button Content="Delete" Width="100" Click="DeleteButton_Click" Margin="0,0,0,10"/>
+
+            <TextBlock x:Name="ItemDetailsTextBlock" TextWrapping="Wrap" Margin="0,10,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>

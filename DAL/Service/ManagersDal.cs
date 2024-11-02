@@ -17,14 +17,13 @@ namespace DAL.Repo
         {
             using (SqlCommand command = _connection.CreateCommand())
             {
-                command.CommandText = "INSERT INTO managers (first_name, last_name, phone_number, position, email,password) " +
+                command.CommandText = "INSERT INTO managers (first_name, last_name, phone_number, email,password) " +
                                       "VALUES (@FirstName, @LastName, @PhoneNumber, @Position, @Email,@password); " +
                                       "SELECT SCOPE_IDENTITY();";
 
                 command.Parameters.AddWithValue("@FirstName", manager.first_Name);
                 command.Parameters.AddWithValue("@LastName", manager.last_Name);
                 command.Parameters.AddWithValue("@PhoneNumber", manager.phone_Number);
-                command.Parameters.AddWithValue("@Position", manager.position);
                 command.Parameters.AddWithValue("@Email", manager.email);
                 command.Parameters.AddWithValue("@password", manager.password);
 
@@ -59,7 +58,7 @@ namespace DAL.Repo
         {
             using (SqlCommand command = _connection.CreateCommand())
             {
-                command.CommandText = "SELECT id, first_name, last_name, phone_number, position, email ,password FROM managers";
+                command.CommandText = "SELECT id, first_name, last_name, phone_number, email ,password FROM managers";
 
                 _connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
@@ -73,7 +72,6 @@ namespace DAL.Repo
                         first_Name = reader["first_name"].ToString(),
                         last_Name = reader["last_name"].ToString(),
                         phone_Number = reader["phone_number"].ToString(),
-                        position = reader["position"].ToString(),
                         email = reader["email"].ToString(),
                         password = reader["password"].ToString()
                     });
@@ -88,7 +86,7 @@ namespace DAL.Repo
         {
             using (SqlCommand command = _connection.CreateCommand())
             {
-                command.CommandText = "SELECT id, first_name, last_name, phone_number, position, email,password " +
+                command.CommandText = "SELECT id, first_name, last_name, phone_number, email,password " +
                                       "FROM managers WHERE id = @Id";
                 command.Parameters.AddWithValue("@Id", id);
 
@@ -103,7 +101,6 @@ namespace DAL.Repo
                         first_Name = reader["first_name"].ToString(),
                         last_Name = reader["last_name"].ToString(),
                         phone_Number = reader["phone_number"].ToString(),
-                        position = reader["position"].ToString(),
                         email = reader["email"].ToString(),
                         password = reader["password"].ToString()
                     };
@@ -121,7 +118,7 @@ namespace DAL.Repo
         {
             using (SqlCommand command = _connection.CreateCommand())
             {
-                command.CommandText = "SELECT id, first_name, last_name, phone_number, position, email, password " +
+                command.CommandText = "SELECT id, first_name, last_name, phone_number, email, password " +
                                       "FROM managers WHERE email = @Email AND password = @Password";
                 command.Parameters.AddWithValue("@Email", username);
                 command.Parameters.AddWithValue("@Password", password);
@@ -137,7 +134,6 @@ namespace DAL.Repo
                         first_Name = reader["first_name"].ToString(),
                         last_Name = reader["last_name"].ToString(),
                         phone_Number = reader["phone_number"].ToString(),
-                        position = reader["position"].ToString(),
                         email = reader["email"].ToString(),
                         password = reader["password"].ToString()
                     };
@@ -157,13 +153,12 @@ namespace DAL.Repo
             using (SqlCommand command = _connection.CreateCommand())
             {
                 command.CommandText = "UPDATE managers SET first_name = @FirstName, last_name = @LastName, " +
-                                      "phone_number = @PhoneNumber, position = @Position, email = @Email, password = @password " +
+                                      "phone_number = @PhoneNumber, email = @Email, password = @password " +
                                       "WHERE id = @Id";
 
                 command.Parameters.AddWithValue("@FirstName", manager.first_Name);
                 command.Parameters.AddWithValue("@LastName", manager.last_Name);
                 command.Parameters.AddWithValue("@PhoneNumber", manager.phone_Number);
-                command.Parameters.AddWithValue("@Position", manager.position);
                 command.Parameters.AddWithValue("@Email", manager.email);
                 command.Parameters.AddWithValue("@Id", id);
                 command.Parameters.AddWithValue("@password", manager.password);

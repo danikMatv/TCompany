@@ -1,20 +1,25 @@
 ﻿using DALEF.Conc;
 using DTO.Entity;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace WpfApp2
 {
     public partial class GetAllItemsWindow : Window
     {
-        private readonly GoodsDalEf goodsDalEf;
+        private readonly GoodsDalEf _goodsDalEf;
+
         public GetAllItemsWindow(GoodsDalEf goodsDalEf)
         {
-            this.goodsDalEf = goodsDalEf;
+            _goodsDalEf = goodsDalEf;
             InitializeComponent();
+            InitializeItems();
         }
 
-        private void InitializeItems() 
+        private void InitializeItems()
         {
+            List<Goods> goods = _goodsDalEf.GetAll();
+            GoodsListBox.ItemsSource = goods;
         }
     }
 }

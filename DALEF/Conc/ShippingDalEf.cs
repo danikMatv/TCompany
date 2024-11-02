@@ -16,7 +16,16 @@ namespace DALEF.Conc
             _connectionString = connectionString;
             _mapper = mapper;
         }
-
+        public List<Shipping> GetShippingsByGoodsId(int goodsId)
+        {
+            using (var context = new ImdbContext(_connectionString))
+            {
+                var tblShippings = context.Shippings
+                                          .Where(s => s.goods_id == goodsId)
+                                          .ToList();
+                return _mapper.Map<List<Shipping>>(tblShippings);
+            }
+        }
         public Shipping Create(Shipping shipping)
         {
             using (var context = new ImdbContext(_connectionString))

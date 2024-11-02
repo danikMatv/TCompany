@@ -64,7 +64,7 @@ namespace WpfApp2
         }
         private void SetAccessControl()
         {
-            IsManager = _userRole == "Admin"; // Якщо роль "Admin", доступ до функцій для менеджерів
+            IsManager = _userRole == "Admin";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -74,7 +74,6 @@ namespace WpfApp2
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        // Команди для кнопок
         public ICommand GetAllItemsCommand { get; set; }
         public ICommand GetItemByIdCommand { get; set; }
         public ICommand CreateNewItemCommand { get; set; }
@@ -87,42 +86,40 @@ namespace WpfApp2
         public ICommand ApproveOrdersCommand { get; set; }
         public ICommand QuitCommand { get; set; }
 
-        // Реалізації команд
         private void GetAllItems()
         {
-            GoodsList = _goodsDalEf.GetAll();
+            GetAllItemsWindow getAllItemsWindow = new GetAllItemsWindow(_goodsDalEf);
+            getAllItemsWindow.ShowDialog();
         }
 
         private void GetItemById()
         {
-            // Логіка для отримання товару за ID
+            GetItemByItemId getItemByItemId = new GetItemByItemId(_goodsDalEf);
+            getItemByItemId.ShowDialog();
         }
 
         private void CreateNewItem()
         {
-            if (_goodsDalEf == null)
-            {
-                MessageBox.Show("Goods data access layer is not initialized.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
             CreateNewItemWindow createNewItemWindow = new CreateNewItemWindow(_userId, _goodsDalEf);
             createNewItemWindow.ShowDialog();
         }
 
-            private void UpdateItemById()
+        private void UpdateItemById()
         {
-            // Логіка для оновлення товару за ID
+            UpdateItemByItemId updateItemByItem = new UpdateItemByItemId(_goodsDalEf);
+            updateItemByItem.ShowDialog();
         }
 
         private void DeleteItemById()
         {
-            // Логіка для видалення товару за ID
+            DeleteItemByIntemId deleteItemByIntemId = new DeleteItemByIntemId(_goodsDalEf,_shippingDalEf);
+            deleteItemByIntemId.ShowDialog();
         }
 
         private void CreateNewShipping()
         {
-            // Логіка для створення нової доставки
+            CreateNewShippingWindow createNewShippingWindow = new CreateNewShippingWindow(_goodsDalEf,_shippingDalEf);
+            createNewShippingWindow.ShowDialog();
         }
 
         private void GetAllShippings()

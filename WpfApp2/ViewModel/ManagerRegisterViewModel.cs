@@ -1,8 +1,7 @@
 ﻿using DALEF.Conc;
 using DTO.Entity;
-using Microsoft.VisualBasic.Logging;
-using System;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using WpfApp2.Commands;
 
@@ -95,17 +94,48 @@ namespace WpfApp2.ViewModel
         public ManagerRegisterViewModel(ManagersDalEf managersDalEf, UsersDalEf usersDalEf)
         {
             _managersDalEf = managersDalEf;
-            RegisterCommand = new RelayCommand(Register);
             _usersDalEf = usersDalEf;
+            RegisterCommand = new RelayCommand(Register);
+        }
+
+        private bool ValidateInputs()
+        {
+            if (string.IsNullOrWhiteSpace(FirstName) ||
+                string.IsNullOrWhiteSpace(LastName) ||
+                string.IsNullOrWhiteSpace(Password) ||
+                string.IsNullOrWhiteSpace(ConfirmPassword) ||
+                string.IsNullOrWhiteSpace(PhoneNumber) ||
+                string.IsNullOrWhiteSpace(Email))
+            {
+                Message = "All fields are required.";
+                return false;
+            }
+
+            if (Password != ConfirmPassword)
+            {
+                Message = "Passwords do not match.";
+                return false;
+            }
+
+            if (!Regex.IsMatch(Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                Message = "Invalid email format.";
+                return false;
+            }
+
+            if (!Regex.IsMatch(PhoneNumber, @"^\d{10}$"))
+            {
+                Message = "Phone number must be 10 digits.";
+                return false;
+            }
+
+            return true;
         }
 
         private void Register()
         {
-            if (Password != ConfirmPassword)
-            {
-                Message = "Passwords do not match.";
+            if (!ValidateInputs())
                 return;
-            }
 
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(Password);
             var manager = new Managers
@@ -126,13 +156,12 @@ namespace WpfApp2.ViewModel
 
             try
             {
-                var result = _managersDalEf.Create(manager);
-                var resultNew = _usersDalEf.Create(user);
-                if (result != null && resultNew != null)
+                var managerResult = _managersDalEf.Create(manager);
+                var userResult = _usersDalEf.Create(user);
+
+                if (managerResult != null && userResult != null)
                 {
-
                     Message = "Registration successful!";
-
                 }
                 else
                 {
@@ -141,7 +170,7 @@ namespace WpfApp2.ViewModel
             }
             catch (Exception ex)
             {
-                Message = $"An error occurred during registration: {ex.Message} - Inner Exception: {ex.InnerException?.Message}";
+                Message = $"An error occurred during registration: {ex.Message}";
             }
         }
 

@@ -10,10 +10,10 @@
             <TextBlock Text="Register Manager" Foreground="White" FontSize="20" FontWeight="Bold" Margin="0,0,0,20" TextAlignment="Center"/>
 
             <TextBlock Text="First Name:" Foreground="White" Margin="0,0,0,5"/>
-            <TextBox Text="{Binding FirstName}" Width="200" Margin="0,0,0,10"/>
+            <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="0,0,0,10"/>
 
             <TextBlock Text="Last Name:" Foreground="White" Margin="0,0,0,5"/>
-            <TextBox Text="{Binding LastName}" Width="200" Margin="0,0,0,10"/>
+            <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="0,0,0,10"/>
 
             <TextBlock Text="Password:" Foreground="White" Margin="0,0,0,5"/>
             <PasswordBox x:Name="PasswordBox" Width="200" Margin="0,0,0,10" PasswordChanged="PasswordBox_PasswordChanged"/>
@@ -22,10 +22,10 @@
             <PasswordBox x:Name="ConfirmPasswordBox" Width="200" Margin="0,0,0,20" PasswordChanged="ConfirmPasswordBox_PasswordChanged"/>
 
             <TextBlock Text="Phone Number:" Foreground="White" Margin="0,0,0,5"/>
-            <TextBox Text="{Binding PhoneNumber}" Width="200" Margin="0,0,0,10"/>
+            <TextBox Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="0,0,0,10"/>
 
             <TextBlock Text="Email:" Foreground="White" Margin="0,0,0,5"/>
-            <TextBox Text="{Binding Email}" Width="200" Margin="0,0,0,20"/>
+            <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="0,0,0,20"/>
 
             <TextBlock Text="{Binding Message}" Foreground="Red" FontWeight="Bold" FontSize="16" Margin="0,20,0,10" TextWrapping="Wrap"/>
 

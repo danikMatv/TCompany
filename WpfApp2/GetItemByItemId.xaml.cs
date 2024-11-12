@@ -1,4 +1,5 @@
-﻿using DALEF.Conc;
+﻿using BLL.Services;
+using DALEF.Conc;
 using DTO.Entity;
 using System;
 using System.Windows;
@@ -8,9 +9,11 @@ namespace WpfApp2
     public partial class GetItemByItemId : Window
     {
         private readonly GoodsDalEf goodsDalEf;
+        private readonly GoodsService goodsService; 
 
-        public GetItemByItemId(GoodsDalEf _goodsDalEf)
+        public GetItemByItemId(GoodsDalEf _goodsDalEf, GoodsService _goodsService)
         {
+            this.goodsService = _goodsService;
             this.goodsDalEf = _goodsDalEf;
             InitializeComponent();
         }
@@ -19,7 +22,7 @@ namespace WpfApp2
         {
             if (int.TryParse(ItemIdTextBox.Text, out int itemId))
             {
-                Goods goods = goodsDalEf.GetById(itemId);
+                Goods goods = goodsService.GetById(itemId);
 
                 if (goods != null)
                 {

@@ -4,7 +4,6 @@ namespace DAL.Repository
 {
     public interface IManagers
     {
-        Managers login(string username, string password);
         List<Managers> GetAll();
         Managers GetById(int id);
         Managers Create(Managers managers);

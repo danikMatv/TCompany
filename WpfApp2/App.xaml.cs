@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BLL.Services;
 using DALEF.Conc;
 using DALEF.Mapping;
 using DALEF.Models;
@@ -26,14 +27,16 @@ namespace WpfApp2
             services.AddTransient<GoodsDalEf>(provider => new GoodsDalEf(connectionString, provider.GetRequiredService<IMapper>()));
             services.AddTransient<ShippingDalEf>(provider => new ShippingDalEf(connectionString, provider.GetRequiredService<IMapper>()));
 
+            services.AddTransient<GoodsService>(provider => new GoodsService(connectionString));
+            services.AddTransient<ShippingService>(provider => new ShippingService(connectionString));
             services.AddSingleton<IMapper>(mapper);
             services.AddTransient<UsersDalEf>(provider => new UsersDalEf(connectionString, provider.GetRequiredService<IMapper>()));
             services.AddTransient<ManagersDalEf>(provider => new ManagersDalEf(connectionString, provider.GetRequiredService<IMapper>()));
             services.AddTransient<LoginWindow>();
             services.AddTransient<LoginViewModel>();
             services.AddTransient<StartWindow>();
-            services.AddTransient<RegisterWindow>(); // Додайте RegisterWindow, якщо ще не додали
-            services.AddTransient<ManagerRegisterWindow>(); // Додайте ManagerRegisterWindow, якщо ще не додали
+            services.AddTransient<RegisterWindow>();
+            services.AddTransient<ManagerRegisterWindow>();
         }
 
         protected override void OnStartup(StartupEventArgs e)

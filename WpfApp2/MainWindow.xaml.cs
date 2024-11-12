@@ -1,4 +1,5 @@
-﻿using DALEF.Conc;
+﻿using BLL.Services;
+using DALEF.Conc;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using WpfApp2.ViewModel;
@@ -11,6 +12,9 @@ namespace WpfApp2
         private readonly ManagersDalEf _managersDalEf;
         private readonly GoodsDalEf _goodsDalEf;
         private readonly ShippingDalEf _shippingDalEf;
+        private readonly GoodsService _goodsService;
+        private readonly ShippingService _shippingService;
+        private readonly ManagersService _managersService;
 
         public MainWindow(string userRole, int userId)
         {
@@ -20,8 +24,8 @@ namespace WpfApp2
             _managersDalEf = (App.ServiceProvider.GetService<ManagersDalEf>());
             _goodsDalEf = (App.ServiceProvider.GetService<GoodsDalEf>());
             _shippingDalEf = (App.ServiceProvider.GetService<ShippingDalEf>());
-
-            DataContext = new MainViewModel(_shippingDalEf, _goodsDalEf, userId, userRole, _usersDalEf, _managersDalEf);
+            _goodsService = (App.ServiceProvider.GetService< GoodsService>());
+            DataContext = new MainViewModel(_shippingDalEf, _goodsDalEf, userId, userRole, _usersDalEf, _managersDalEf,_goodsService, _shippingService);
         }
     }
 }

@@ -13,7 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApplication", "Conso
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unit_Test_Project", "Unit Test Project\Unit_Test_Project.csproj", "{DCD41AEA-081E-4E89-8A54-CCAD90C9FD4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp2", "WpfApp2\WpfApp2.csproj", "{7ADB53D3-B5E8-43A6-A0A1-5998D38CBE93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp2", "WpfApp2\WpfApp2.csproj", "{7ADB53D3-B5E8-43A6-A0A1-5998D38CBE93}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{B7366746-783A-4F01-835F-101851882249}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTestProject2", "BTestProject2\BTestProject2.csproj", "{1615DF92-8F8F-4515-8B9D-1393105F75F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{7ADB53D3-B5E8-43A6-A0A1-5998D38CBE93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7ADB53D3-B5E8-43A6-A0A1-5998D38CBE93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7ADB53D3-B5E8-43A6-A0A1-5998D38CBE93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7366746-783A-4F01-835F-101851882249}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7366746-783A-4F01-835F-101851882249}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7366746-783A-4F01-835F-101851882249}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7366746-783A-4F01-835F-101851882249}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1615DF92-8F8F-4515-8B9D-1393105F75F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1615DF92-8F8F-4515-8B9D-1393105F75F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1615DF92-8F8F-4515-8B9D-1393105F75F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1615DF92-8F8F-4515-8B9D-1393105F75F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

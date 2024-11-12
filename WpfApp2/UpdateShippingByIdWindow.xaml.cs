@@ -1,4 +1,5 @@
-﻿using DALEF.Conc;
+﻿using BLL.Services;
+using DALEF.Conc;
 using DTO.Entity;
 using System;
 using System.Windows;
@@ -8,9 +9,11 @@ namespace WpfApp2
     public partial class UpdateShippingByIdWindow : Window
     {
         private readonly ShippingDalEf shippingDalEf;
-        public UpdateShippingByIdWindow(ShippingDalEf _shippingDalEf)
+        private readonly ShippingService shippingService;
+        public UpdateShippingByIdWindow(ShippingDalEf _shippingDalEf,ShippingService _shippingService)
         {
             this.shippingDalEf = _shippingDalEf;
+            this.shippingService = _shippingService;
             InitializeComponent();
         }
 
@@ -33,7 +36,7 @@ namespace WpfApp2
                 MessageBox.Show("Please enter the destination.", "Input Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            Shipping shipping = shippingDalEf.GetById(id);
+            Shipping shipping = shippingService.GetById(id);
             if (shipping == null)
             {
                 MessageBox.Show("Shipping record not found. Please enter a valid ID.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);

@@ -1,4 +1,5 @@
-﻿using DAL.Service;
+﻿using BLL.Services;
+using DAL.Service;
 using DALEF.Conc;
 using DTO.Entity;
 using System.Windows;
@@ -7,21 +8,21 @@ namespace WpfApp2
 {
     public partial class DeleteItemByIntemId : Window
     {
-        private readonly GoodsDalEf goodsDalEf;
+        private readonly GoodsService goodsService;
         private readonly ShippingDalEf shippingDalEf;
 
-        public DeleteItemByIntemId(GoodsDalEf _goodsDalEf,ShippingDalEf _shippingDalEf)
+        public DeleteItemByIntemId(ShippingDalEf _shippingDalEf, GoodsService _goodsService)
         {
             InitializeComponent();
-            this.goodsDalEf = _goodsDalEf;
             this.shippingDalEf = _shippingDalEf;
+            this.goodsService = _goodsService;
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(ItemIdTextBox.Text, out int itemId))
             {
-                Goods goods = goodsDalEf.GetById(itemId);
+                Goods goods = goodsService.GetById(itemId);
 
                 if (goods != null)
                 {
@@ -34,8 +35,8 @@ namespace WpfApp2
                         } 
                     }
                     List<Shipping> newShippings = shippingDalEf.GetShippingsByGoodsId(itemId);
-                    goodsDalEf.Delete(itemId);
-                    Goods checkGoodsIfExist = goodsDalEf.GetById(itemId);
+                    goodsService.Delete(itemId);
+                    Goods checkGoodsIfExist = goodsService.GetById(itemId);
 
                     if (checkGoodsIfExist == null)
                     {

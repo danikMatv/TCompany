@@ -1,5 +1,7 @@
 ﻿using DAL.Repository;
 using DTO.Entity;
+using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace DAL.Service
@@ -32,6 +34,36 @@ namespace DAL.Service
                 _connection.Close();
 
                 return shipping;
+            }
+        }
+        public List<Shipping> GetShippingsByGoodsIdAndStatusNotAppreved(int goodsId)
+        {
+            using (SqlCommand command = _connection.CreateCommand())
+            {
+                command.CommandText = "SELECT id, start_adress, destination, goods_id, status, destination_date FROM shipping " +
+                                      "WHERE goods_id = @GoodsId AND status != 'Approved'";
+
+                command.Parameters.AddWithValue("@GoodsId", goodsId);
+
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                var shippings = new List<Shipping>();
+                while (reader.Read())
+                {
+                    shippings.Add(new Shipping
+                    {
+                        id = Convert.ToInt32(reader["id"]),
+                        start_adress = reader["start_adress"].ToString(),
+                        destination = reader["destination"].ToString(),
+                        goods_id = Convert.ToInt32(reader["goods_id"]),
+                        status = reader["status"].ToString(),
+                        destination_date = Convert.ToDateTime(reader["destination_date"])
+                    });
+                }
+
+                _connection.Close();
+                return shippings;
             }
         }
 
@@ -111,7 +143,6 @@ namespace DAL.Service
             }
         }
 
-
         public Shipping GetById(int id)
         {
             using (SqlCommand command = _connection.CreateCommand())
@@ -163,6 +194,35 @@ namespace DAL.Service
                 _connection.Close();
 
                 return GetById(id);
+            }
+        }
+
+        public List<Shipping> GetShippingsByGoodsId(int goodsId)
+        {
+            using (SqlCommand command = _connection.CreateCommand())
+            {
+                command.CommandText = "SELECT id, start_adress, destination, goods_id, status, destination_date FROM shipping WHERE goods_id = @GoodsId";
+                command.Parameters.AddWithValue("@GoodsId", goodsId);
+
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                var shippings = new List<Shipping>();
+                while (reader.Read())
+                {
+                    shippings.Add(new Shipping
+                    {
+                        id = Convert.ToInt32(reader["id"]),
+                        start_adress = reader["start_adress"].ToString(),
+                        destination = reader["destination"].ToString(),
+                        goods_id = Convert.ToInt32(reader["goods_id"]),
+                        status = reader["status"].ToString(),
+                        destination_date = Convert.ToDateTime(reader["destination_date"])
+                    });
+                }
+
+                _connection.Close();
+                return shippings;
             }
         }
     }

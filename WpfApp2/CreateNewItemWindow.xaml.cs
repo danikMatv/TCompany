@@ -1,4 +1,5 @@
-﻿using DALEF.Conc;
+﻿using BLL.Services;
+using DALEF.Conc;
 using DTO.Entity;
 using System.Windows;
 
@@ -6,12 +7,12 @@ namespace WpfApp2
 {
     public partial class CreateNewItemWindow : Window
     {
-        private readonly GoodsDalEf goodsDalEf;
+        private readonly GoodsService goodsService;
         private readonly int _managerId;
-        public CreateNewItemWindow(int managerId, GoodsDalEf goodsDalEf)
+        public CreateNewItemWindow(int managerId, GoodsService _goodsService)
         {
             _managerId = managerId;
-            this.goodsDalEf = goodsDalEf;
+            this.goodsService = _goodsService;
             InitializeComponent();
         }
 
@@ -39,7 +40,7 @@ namespace WpfApp2
                 price = (double)itemPrice
             };
 
-            var successfully = goodsDalEf.Create(goods);
+            var successfully = goodsService.Create(goods);
             if (successfully != null)
             {
                 MessageBox.Show("New item created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);

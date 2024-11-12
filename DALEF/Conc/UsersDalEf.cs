@@ -94,16 +94,15 @@ namespace DALEF.Conc
                 {
                     return null;
                 }
-                else if (BCrypt.Net.BCrypt.Verify(password, manager.hashed_password))
+                bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, manager.hashed_password);
+                if (isPasswordValid)
                 {
                     return _mapper.Map<Users>(manager);
                 }
-                else
-                {
-                    return null;
-                }
+                return null;
             }
         }
+
 
 
     }

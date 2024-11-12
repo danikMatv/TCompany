@@ -1,4 +1,6 @@
-﻿using DAL.Repo;
+﻿using BLL.IServices;
+using BLL.Services;
+using DAL.Repo;
 using DAL.Service;
 using DALEF.Conc;
 using DTO.Entity;
@@ -14,18 +16,23 @@ namespace WpfApp2
     {
         private string _userRole;
         private int _userId;
+
+        private readonly ShippingService _sippingService;
         private readonly ManagersDalEf _managersDalEf;
         private readonly UsersDalEf _usersDalEf;
         private readonly ShippingDalEf _shippingDalEf;
         private readonly GoodsDalEf _goodsDalEf;
+        private readonly GoodsService _goodsService;
 
-        public MainViewModel(ShippingDalEf shippingDalEf,GoodsDalEf goodsDalEf, int userId, string userRole, UsersDalEf usersDalEf, ManagersDalEf managersDalEf)
+        public MainViewModel(ShippingDalEf shippingDalEf,GoodsDalEf goodsDalEf, int userId, string userRole, UsersDalEf usersDalEf, ManagersDalEf managersDalEf, GoodsService goodsService, ShippingService shippingService)
         {
             _goodsDalEf = goodsDalEf;
             _shippingDalEf = shippingDalEf;
             _userRole = userRole;
+            _sippingService = shippingService;
             _userId = userId;
             _usersDalEf = usersDalEf;
+            _goodsService = goodsService;
             _managersDalEf = managersDalEf;
             SetAccessControl();
 
@@ -94,7 +101,7 @@ namespace WpfApp2
 
         private void GetItemById()
         {
-            GetItemByItemId getItemByItemId = new GetItemByItemId(_goodsDalEf);
+            GetItemByItemId getItemByItemId = new GetItemByItemId(_goodsDalEf,_goodsService);
             getItemByItemId.ShowDialog();
         }
 
@@ -130,7 +137,7 @@ namespace WpfApp2
 
         private void UpdateShippingById()
         {
-            UpdateShippingByIdWindow updateShippingByIdWindow = new UpdateShippingByIdWindow(_shippingDalEf);
+            UpdateShippingByIdWindow updateShippingByIdWindow = new UpdateShippingByIdWindow(_shippingDalEf,_sippingService);
             updateShippingByIdWindow.ShowDialog();
         }
 

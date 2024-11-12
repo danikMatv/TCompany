@@ -3,7 +3,6 @@ using DALEF.Conc;
 using System.Windows.Input;
 using System.Windows;
 using WpfApp2.Commands;
-using DTO.Entity;
 
 namespace WpfApp2.ViewModel
 {
@@ -68,7 +67,7 @@ namespace WpfApp2.ViewModel
                 }
                 else
                 {
-                    Message = "Invalid email or password.";
+                    Message = "Invalid login or password.";
                 }
             }
             catch (Exception ex)

@@ -107,7 +107,7 @@ namespace WpfApp2
 
         private void CreateNewItem()
         {
-            CreateNewItemWindow createNewItemWindow = new CreateNewItemWindow(_userId, _goodsDalEf);
+            CreateNewItemWindow createNewItemWindow = new CreateNewItemWindow(_userId, _goodsService);
             createNewItemWindow.ShowDialog();
         }
 
@@ -119,7 +119,7 @@ namespace WpfApp2
 
         private void DeleteItemById()
         {
-            DeleteItemByIntemId deleteItemByIntemId = new DeleteItemByIntemId(_goodsDalEf,_shippingDalEf);
+            DeleteItemByIntemId deleteItemByIntemId = new DeleteItemByIntemId(_shippingDalEf, _goodsService);
             deleteItemByIntemId.ShowDialog();
         }
 

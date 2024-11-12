@@ -59,10 +59,8 @@ namespace WpfApp2.ViewModel
                 if (users != null)
                 {
                     Message = $"Welcome {users.name}!";
-
-                    var mainWindow = new MainWindow(users.role,users.id);
+                    var mainWindow = new MainWindow(users.role, users.id);
                     mainWindow.Show();
-
                     Application.Current.Windows[0].Close();
                 }
                 else
@@ -72,9 +70,10 @@ namespace WpfApp2.ViewModel
             }
             catch (Exception ex)
             {
-                Message = "An error occurred during login.";
+                Message = $"An error occurred during login: {ex.Message}";
             }
         }
+
 
 
         public event PropertyChangedEventHandler PropertyChanged;

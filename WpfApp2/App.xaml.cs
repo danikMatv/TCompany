@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BLL.Services;
+using DAL.Repository;
 using DALEF.Conc;
 using DALEF.Mapping;
 using DALEF.Models;
@@ -26,9 +27,9 @@ namespace WpfApp2
 
             services.AddTransient<GoodsDalEf>(provider => new GoodsDalEf(connectionString, provider.GetRequiredService<IMapper>()));
             services.AddTransient<ShippingDalEf>(provider => new ShippingDalEf(connectionString, provider.GetRequiredService<IMapper>()));
-
-            services.AddTransient<GoodsService>(provider => new GoodsService(connectionString));
-            services.AddTransient<ShippingService>(provider => new ShippingService(connectionString));
+            services.AddTransient<IGoods, GoodsDalEf>(provider => new GoodsDalEf(connectionString, provider.GetRequiredService<IMapper>()));
+            services.AddTransient<GoodsService>(provider => new GoodsService(provider.GetRequiredService<IGoods>()));
+            services.AddTransient<ShippingService>(provider => new ShippingService(provider.GetRequiredService<IShipping>()));
             services.AddSingleton<IMapper>(mapper);
             services.AddTransient<UsersDalEf>(provider => new UsersDalEf(connectionString, provider.GetRequiredService<IMapper>()));
             services.AddTransient<ManagersDalEf>(provider => new ManagersDalEf(connectionString, provider.GetRequiredService<IMapper>()));

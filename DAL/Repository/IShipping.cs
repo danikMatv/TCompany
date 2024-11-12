@@ -10,5 +10,7 @@ namespace DAL.Repository
         Shipping Update(int id, Shipping shipping);
         Shipping Delete(int id);
         List<Shipping> GetAllByStatus(string status);
+        List<Shipping> GetShippingsByGoodsId(int goodsId);
+        List<Shipping> GetShippingsByGoodsIdAndStatusNotAppreved(int goodsId);
     }
 }

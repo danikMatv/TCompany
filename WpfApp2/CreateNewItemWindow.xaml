@@ -12,14 +12,31 @@
                          Foreground="White" 
                          BorderBrush="Gray" 
                          BorderThickness="1" 
-                         Padding="5" 
-                         Text="{Binding Text, RelativeSource={RelativeSource Self}}"/>
-                <TextBlock Text="Item Name" 
-                           Foreground="LightGray" 
+                         Padding="5"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Setters>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Foreground" Value="Gray"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBlock x:Name="ItemNamePlaceholder" 
+                           Text="Item Name" 
+                           Foreground="Gray" 
                            VerticalAlignment="Center" 
-                           Margin="5,0,0,0" 
+                           HorizontalAlignment="Left" 
+                           Margin="10,0,0,0"
                            IsHitTestVisible="False"/>
             </Grid>
+
             <Grid Margin="0,0,0,20">
                 <TextBox x:Name="ItemPriceTextBox" 
                          Height="35" 
@@ -27,14 +44,29 @@
                          Foreground="White" 
                          BorderBrush="Gray" 
                          BorderThickness="1" 
-                         Padding="5" 
-                         Text="{Binding Text, RelativeSource={RelativeSource Self}}"/>
-                <TextBlock Text="Item Price" 
-                           Foreground="LightGray" 
+                         Padding="5">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Setters>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Foreground" Value="Gray"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBlock x:Name="ItemPricePlaceholder" 
+                           Text="Item Price" 
+                           Foreground="Gray" 
                            VerticalAlignment="Center" 
-                           Margin="5,0,0,0" 
+                           HorizontalAlignment="Left" 
+                           Margin="10,0,0,0"
                            IsHitTestVisible="False"/>
             </Grid>
+
             <Button Content="Create" 
                     Click="CreateButton_Click" 
                     HorizontalAlignment="Center" 

@@ -3,89 +3,73 @@ using DAL.Repository;
 using DALEF.Ct;
 using DALEF.Models;
 using DTO.Entity;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DALEF.Conc
 {
     public class GoodsDalEf : IGoods
     {
-        private readonly string _connectionString;
+        private readonly ImdbContext _context;
         private readonly IMapper _mapper;
 
-        public GoodsDalEf(string connectionString, IMapper mapper)
+        public GoodsDalEf(ImdbContext context, IMapper mapper)
         {
-            _connectionString = connectionString;
+            _context = context;
             _mapper = mapper;
         }
 
         public Goods Create(Goods goods)
         {
-            using (var context = new ImdbContext(_connectionString))
-            {
-                var tblGoods = _mapper.Map<TblGoods>(goods);
-                context.Goods.Add(tblGoods);
-                context.SaveChanges();
+            var tblGoods = _mapper.Map<TblGoods>(goods);
+            _context.Goods.Add(tblGoods);
+            _context.SaveChanges();
 
-                goods.id = tblGoods.id;
-                return goods;
-            }
+            goods.id = tblGoods.id;
+            return goods;
         }
 
         public Goods Delete(int id)
         {
-            using (var context = new ImdbContext(_connectionString))
+            var tblGoods = _context.Goods.FirstOrDefault(e => e.id == id);
+            if (tblGoods != null)
             {
-                var tblGoods = context.Goods.FirstOrDefault(e => e.id == id);
-                if (tblGoods != null)
-                {
-                    context.Goods.Remove(tblGoods);
-                    context.SaveChanges();
-                }
-                return _mapper.Map<Goods>(tblGoods);
+                _context.Goods.Remove(tblGoods);
+                _context.SaveChanges();
             }
+            return _mapper.Map<Goods>(tblGoods);
         }
 
         public List<Goods> GetAll()
         {
-            using (var context = new ImdbContext(_connectionString))
-            {
-                var tblGoods = context.Goods.ToList();
-                return _mapper.Map<List<Goods>>(tblGoods);
-            }
+            var tblGoods = _context.Goods.ToList();
+            return _mapper.Map<List<Goods>>(tblGoods);
         }
 
         public List<Goods> GetAllRelatedGoods(int managerId)
         {
-            using (var context = new ImdbContext(_connectionString))
-            {
-                var tblGoods = context.Goods
-                    .Where(g => g.manager_id == managerId)
-                    .ToList();
+            var tblGoods = _context.Goods
+                .Where(g => g.manager_id == managerId)
+                .ToList();
 
-                return _mapper.Map<List<Goods>>(tblGoods);
-            }
+            return _mapper.Map<List<Goods>>(tblGoods);
         }
 
         public Goods GetById(int id)
         {
-            using (var context = new ImdbContext(_connectionString))
-            {
-                var tblGoods = context.Goods.FirstOrDefault(e => e.id == id);
-                return _mapper.Map<Goods>(tblGoods);
-            }
+            var tblGoods = _context.Goods.FirstOrDefault(e => e.id == id);
+            return _mapper.Map<Goods>(tblGoods);
         }
 
         public Goods Update(int id, Goods goods)
         {
-            using (var context = new ImdbContext(_connectionString))
+            var tblGoods = _context.Goods.FirstOrDefault(e => e.id == id);
+            if (tblGoods != null)
             {
-                var tblGoods = context.Goods.FirstOrDefault(e => e.id == id);
-                if (tblGoods != null)
-                {
-                    _mapper.Map(goods, tblGoods);
-                    context.SaveChanges();
-                }
-                return goods;
+                _mapper.Map(goods, tblGoods);
+                _context.SaveChanges();
             }
+            return goods;
         }
     }
 }

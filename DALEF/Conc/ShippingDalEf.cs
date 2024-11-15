@@ -3,22 +3,33 @@ using DAL.Repository;
 using DALEF.Ct;
 using DALEF.Models;
 using DTO.Entity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DALEF.Conc
 {
     public class ShippingDalEf : IShipping
     {
-        private readonly string _connectionString;
+        private readonly IServiceProvider _serviceProvider;  // Додаємо IServiceProvider для доступу до DI контейнера
         private readonly IMapper _mapper;
 
-        public ShippingDalEf(string connectionString, IMapper mapper)
+        // Замість рядка підключення передаємо IServiceProvider
+        public ShippingDalEf(IServiceProvider serviceProvider, IMapper mapper)
         {
-            _connectionString = connectionString;
+            _serviceProvider = serviceProvider;
             _mapper = mapper;
         }
+
+        // Отримуємо контекст через DI контейнер
+        private ImdbContext GetContext()
+        {
+            var options = _serviceProvider.GetRequiredService<DbContextOptions<R2024Context>>();  // Отримуємо DbContextOptions через DI
+            return new ImdbContext(options);  // Створюємо контекст з переданими налаштуваннями
+        }
+
         public List<Shipping> GetShippingsByGoodsId(int goodsId)
         {
-            using (var context = new ImdbContext(_connectionString))
+            using (var context = GetContext())  // Використовуємо метод GetContext
             {
                 var tblShippings = context.Shippings
                                           .Where(s => s.goods_id == goodsId)
@@ -29,7 +40,7 @@ namespace DALEF.Conc
 
         public List<Shipping> GetShippingsByGoodsIdAndStatusNotAppreved(int goodsId)
         {
-            using (var context = new ImdbContext(_connectionString))
+            using (var context = GetContext())  // Використовуємо метод GetContext
             {
                 var tblShippings = context.Shippings
                     .Where(s => s.goods_id == goodsId && s.status != "Approved")
@@ -41,7 +52,7 @@ namespace DALEF.Conc
 
         public Shipping Create(Shipping shipping)
         {
-            using (var context = new ImdbContext(_connectionString))
+            using (var context = GetContext())  // Використовуємо метод GetContext
             {
                 var tblShipping = _mapper.Map<TblShipping>(shipping);
                 context.Shippings.Add(tblShipping);
@@ -54,7 +65,7 @@ namespace DALEF.Conc
 
         public Shipping Delete(int id)
         {
-            using (var context = new ImdbContext(_connectionString))
+            using (var context = GetContext())  // Використовуємо метод GetContext
             {
                 var tblShipping = context.Shippings.FirstOrDefault(e => e.id == id);
                 if (tblShipping != null)
@@ -68,7 +79,7 @@ namespace DALEF.Conc
 
         public List<Shipping> GetAll()
         {
-            using (var context = new ImdbContext(_connectionString))
+            using (var context = GetContext())  // Використовуємо метод GetContext
             {
                 var tblShippings = context.Shippings.ToList();
                 return _mapper.Map<List<Shipping>>(tblShippings);
@@ -77,7 +88,7 @@ namespace DALEF.Conc
 
         public List<Shipping> GetAllByStatus(string status)
         {
-            using (var context = new ImdbContext(_connectionString))
+            using (var context = GetContext())  // Використовуємо метод GetContext
             {
                 var tblShippings = context.Shippings
                                           .Where(s => s.status == status)
@@ -87,10 +98,9 @@ namespace DALEF.Conc
             }
         }
 
-
         public Shipping GetById(int id)
         {
-            using (var context = new ImdbContext(_connectionString))
+            using (var context = GetContext())  // Використовуємо метод GetContext
             {
                 var tblShipping = context.Shippings.FirstOrDefault(e => e.id == id);
                 return _mapper.Map<Shipping>(tblShipping);
@@ -99,7 +109,7 @@ namespace DALEF.Conc
 
         public Shipping Update(int id, Shipping shipping)
         {
-            using (var context = new ImdbContext(_connectionString))
+            using (var context = GetContext())  // Використовуємо метод GetContext
             {
                 var tblStipping = context.Shippings.FirstOrDefault(e => e.id == id);
                 if (tblStipping != null)

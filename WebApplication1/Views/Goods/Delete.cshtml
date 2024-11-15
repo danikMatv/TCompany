@@ -1,0 +1,21 @@
+﻿@model DTO.Entity.Goods
+
+@{
+    ViewData["Title"] = "Delete Goods";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>Are you sure you want to delete this item?</p>
+
+<div>
+    <strong>Name:</strong> @Model.name
+</div>
+<div>
+    <strong>Price:</strong> @Model.price
+</div>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a href="@Url.Action("Index", "Goods")" class="btn btn-secondary">Cancel</a>
+</form>

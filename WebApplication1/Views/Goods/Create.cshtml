@@ -17,5 +17,11 @@
         <input type="number" step="0.01" class="form-control" id="Price" name="price" value="@Model?.price" required />
     </div>
 
+    <div class="form-group">
+        <label for="ManagerId">Manager ID</label>
+        <input type="number" class="form-control" id="ManagerId" name="manager_id" value="@Model?.manager_id" required />
+        <span class="text-danger">@ViewData["ManagerError"]</span>
+    </div>
+
     <button type="submit" class="btn btn-primary">Create</button>
 </form>

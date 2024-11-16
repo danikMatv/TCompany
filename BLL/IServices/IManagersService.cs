@@ -4,6 +4,7 @@ namespace BLL.IServices
 {
     public interface IManagersService
     {
-        public Managers login(string username, string password);
+        //public Managers login(string username, string password);
+        Managers GetById(int id);
     }
 }

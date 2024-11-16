@@ -53,9 +53,11 @@ builder.Services.AddAutoMapper(typeof(Program));
     builder.Services.AddScoped<IGoodsService, GoodsService>();
     builder.Services.AddScoped<IUsers, UsersDalEf>();
     builder.Services.AddScoped<IGoods, GoodsDalEf>();
-
-    // Додавання MVC
-    builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IManagersService, ManagersService>();
+builder.Services.AddScoped<IManagers,ManagersDalEf>();
+    
+// Додавання MVC
+builder.Services.AddControllersWithViews();
 
     var app = builder.Build();
 

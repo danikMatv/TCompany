@@ -12,10 +12,12 @@ namespace WebApplication1.Controllers
     public class GoodsController : Controller
     {
         private readonly IGoodsService _goodsService;
+        private readonly IManagersService _managersService;
 
-        public GoodsController(IGoodsService goodsService)
+        public GoodsController(IGoodsService goodsService, IManagersService managersService)
         {
             _goodsService = goodsService;
+            _managersService = managersService;
         }
 
         // Отримання всіх товарів
@@ -37,13 +39,29 @@ namespace WebApplication1.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Create(Goods goods)
         {
+            if (goods.manager_id <= 0)
+            {
+                ModelState.AddModelError("manager_id", "Manager ID must be a positive number.");
+                ViewData["ManagerError"] = "Manager ID must be a positive number.";
+                return View(goods);
+            }
+
+             if (_managersService.GetById(goods.manager_id) == null)
+            {
+                ModelState.AddModelError("manager_id", "Invalid Manager ID.");
+                ViewData["ManagerError"] = "Invalid Manager ID.";
+                return View(goods);
+            }
+
             if (ModelState.IsValid)
             {
                 _goodsService.Create(goods);
                 return RedirectToAction(nameof(Index));
             }
-            return View(new Goods());
+
+            return View(goods);
         }
+
 
         // Редагування товару
         [HttpGet]

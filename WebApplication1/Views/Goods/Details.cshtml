@@ -1,0 +1,16 @@
+﻿@model DTO.Entity.Goods
+
+@{
+    ViewData["Title"] = "Goods Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <strong>Name:</strong> @Model.name
+</div>
+<div>
+    <strong>Price:</strong> @Model.price
+</div>
+
+<a href="@Url.Action("Index", "Goods")" class="btn btn-primary">Back to List</a>

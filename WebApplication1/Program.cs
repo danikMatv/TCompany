@@ -40,11 +40,13 @@
     {
         options.LoginPath = "/Account/Login";
         options.AccessDeniedPath = "/Account/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Час життя кукі
     });
 
 
-    // Додавання AutoMapper
-    builder.Services.AddAutoMapper(typeof(Program));
+
+// Додавання AutoMapper
+builder.Services.AddAutoMapper(typeof(Program));
     builder.Services.AddAutoMapper(typeof(MovieProfile));
     // Реєстрація залежностей
     builder.Services.AddScoped<IUserService, UserService>();

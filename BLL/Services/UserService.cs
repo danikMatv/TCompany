@@ -1,8 +1,6 @@
 ﻿using BLL.IServices;
 using DAL.Repository;
 using DTO.Entity;
-using System;
-using System.Collections.Generic;
 
 namespace BLL.Services
 {

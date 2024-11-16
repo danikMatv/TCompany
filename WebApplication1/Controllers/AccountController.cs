@@ -1,5 +1,8 @@
 ﻿using BLL.IServices;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace WebApplication1.Controllers
 {
@@ -25,17 +28,28 @@ namespace WebApplication1.Controllers
 
             if (user != null)
             {
-                // Створення сесії чи кукі для авторизованого користувача
-                HttpContext.Session.SetString("UserId", user.id.ToString());
+                // Додавання claims
+                var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.name),
+            new Claim(ClaimTypes.Role, user.role)
+        };
 
-                // Перенаправлення до панелі керування товарами
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true // Запам'ятати користувача
+                };
+
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties).Wait();
+
                 return RedirectToAction("Index", "Goods");
             }
 
-            // Повідомлення про невірні дані
             ViewBag.ErrorMessage = "Невірний логін або пароль";
             return View();
         }
+
     }
 
 }

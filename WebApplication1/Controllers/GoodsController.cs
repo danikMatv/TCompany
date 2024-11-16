@@ -42,7 +42,7 @@ namespace WebApplication1.Controllers
                 _goodsService.Create(goods);
                 return RedirectToAction(nameof(Index));
             }
-            return View(goods);
+            return View(new Goods());
         }
 
         // Редагування товару

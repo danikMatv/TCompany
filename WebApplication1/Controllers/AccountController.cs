@@ -28,7 +28,6 @@ namespace WebApplication1.Controllers
 
             if (user != null)
             {
-                // Додавання claims
                 var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, user.name),
@@ -38,7 +37,7 @@ namespace WebApplication1.Controllers
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var authProperties = new AuthenticationProperties
                 {
-                    IsPersistent = true // Запам'ятати користувача
+                    IsPersistent = true 
                 };
 
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties).Wait();

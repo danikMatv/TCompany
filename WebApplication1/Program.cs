@@ -10,20 +10,17 @@
 
     var builder = WebApplication.CreateBuilder(args);
 
-    // Налаштування підключення до бази даних
     builder.Services.AddDbContext<ImdbContext>(options =>
     {
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-        options.UseSqlServer(connectionString);  // Налаштування бази даних через DI
-    });// Рекомендується реєструвати лише один контекст:
+        options.UseSqlServer(connectionString);
+    });
     builder.Services.AddDbContext<R2024Context>(options =>
     {
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-        options.UseSqlServer(connectionString);  // Налаштування підключення до бази даних через DI
+        options.UseSqlServer(connectionString);
     });
 
-
-    // Додавання служб для сесій
     builder.Services.AddSession(options =>
     {
         options.IdleTimeout = TimeSpan.FromMinutes(30); // Час життя сесії
@@ -31,7 +28,7 @@
         options.Cookie.IsEssential = true;
     });
 
-    // Налаштування аутентифікації з використанням Cookie
+    //Cookie
     builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -40,15 +37,13 @@
     {
         options.LoginPath = "/Account/Login";
         options.AccessDeniedPath = "/Account/AccessDenied";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Час життя кукі
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     });
 
 
 
-// Додавання AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
     builder.Services.AddAutoMapper(typeof(MovieProfile));
-    // Реєстрація залежностей
     builder.Services.AddScoped<IUserService, UserService>();
     builder.Services.AddScoped<IGoodsService, GoodsService>();
     builder.Services.AddScoped<IUsers, UsersDalEf>();
@@ -56,12 +51,10 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IManagersService, ManagersService>();
 builder.Services.AddScoped<IManagers,ManagersDalEf>();
     
-// Додавання MVC
 builder.Services.AddControllersWithViews();
 
     var app = builder.Build();
 
-    // Конфігурація Middleware
     if (!app.Environment.IsDevelopment())
     {
         app.UseExceptionHandler("/Home/Error");
@@ -72,8 +65,6 @@ builder.Services.AddControllersWithViews();
     app.UseStaticFiles();
 
     app.UseRouting();
-
-    // Використання аутентифікації та сесій
     app.UseAuthentication();
     app.UseAuthorization();
     app.UseSession();

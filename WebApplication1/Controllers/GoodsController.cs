@@ -1,9 +1,6 @@
 ﻿using BLL.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Models; // Створіть модель для товару, якщо вона ще не створена
-using System.Collections.Generic;
-using DAL.Service;
 using DTO.Entity;
 
 namespace WebApplication1.Controllers
@@ -20,14 +17,12 @@ namespace WebApplication1.Controllers
             _managersService = managersService;
         }
 
-        // Отримання всіх товарів
         public IActionResult Index()
         {
             var goodsList = _goodsService.GetAll();
             return View(goodsList);
         }
 
-        // Створення нового товару
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
@@ -63,7 +58,6 @@ namespace WebApplication1.Controllers
         }
 
 
-        // Редагування товару
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
@@ -88,7 +82,6 @@ namespace WebApplication1.Controllers
             return View(goods);
         }
 
-        // Видалення товару
         [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
@@ -102,7 +95,6 @@ namespace WebApplication1.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Детальна інформація про товар
         [Authorize(Roles = "User, Admin")]
         public IActionResult Details(int id)
         {
